@@ -67,5 +67,33 @@ def get_my_items():
 def get_my_claims():
     return user_controller.get_my_claims()
 
+# ==========================
+# Item Routes
+# ==========================
+
+@app.route("/items", methods=["GET"])
+def get_items():
+    return item_controller.get_items()
+
+
+@app.route("/items/<int:id>", methods=["GET"])
+def get_item(id):
+    return item_controller.get_item(id)
+
+
+@app.route("/items", methods=["POST"])
+def create_item():
+    return item_controller.create_item()
+
+
+@app.route("/items/<int:id>", methods=["PUT"])
+def update_item(id):
+    return item_controller.update_item(id)
+
+
+@app.route("/items/<int:id>", methods=["DELETE"])
+def delete_item(id):
+    return item_controller.delete_item(id)
+
 if __name__ == "__main__":
     app.run(debug=True)
