@@ -95,5 +95,33 @@ def update_item(id):
 def delete_item(id):
     return item_controller.delete_item(id)
 
+# ==========================
+# Claim Routes
+# ==========================
+
+@app.route("/claims", methods=["POST"])
+def create_claim():
+    return claim_controller.create_claim()
+
+
+@app.route("/claims/my", methods=["GET"])
+def my_claims():
+    return claim_controller.get_my_claims()
+
+
+@app.route("/claims", methods=["GET"])
+def all_claims():
+    return claim_controller.get_all_claims()
+
+
+@app.route("/claims/<int:id>/approve", methods=["PUT"])
+def approve_claim(id):
+    return claim_controller.approve_claim(id)
+
+
+@app.route("/claims/<int:id>/reject", methods=["PUT"])
+def reject_claim(id):
+    return claim_controller.reject_claim(id)
+
 if __name__ == "__main__":
     app.run(debug=True)
