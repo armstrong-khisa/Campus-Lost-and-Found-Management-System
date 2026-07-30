@@ -8,6 +8,14 @@ from models.item import Item
 from models.category import Category
 from models.claim import Claim
 
+from controllers import (
+    auth_controller,
+    user_controller,
+    item_controller,
+    claim_controller,
+    category_controller
+)
+
 app = Flask(__name__)
 CORS(app)
 
@@ -31,6 +39,18 @@ def home():
     return {
         "message": "Campus Lost and Found API is running."
     }
+
+# Authentication Routes
+
+@app.route("/auth/register", methods=["POST"])
+def register():
+    return auth_controller.register()
+
+
+@app.route("/auth/login", methods=["POST"])
+def login():
+    return auth_controller.login()
+
 
 
 if __name__ == "__main__":
