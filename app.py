@@ -51,7 +51,21 @@ def register():
 def login():
     return auth_controller.login()
 
+# User Routes
 
+@app.route("/users/me", methods=["GET"])
+def get_profile():
+    return user_controller.get_profile()
+
+
+@app.route("/users/me/items", methods=["GET"])
+def get_my_items():
+    return user_controller.get_my_items()
+
+
+@app.route("/users/me/claims", methods=["GET"])
+def get_my_claims():
+    return user_controller.get_my_claims()
 
 if __name__ == "__main__":
     app.run(debug=True)
