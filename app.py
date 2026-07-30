@@ -67,9 +67,8 @@ def get_my_items():
 def get_my_claims():
     return user_controller.get_my_claims()
 
-# ==========================
 # Item Routes
-# ==========================
+
 
 @app.route("/items", methods=["GET"])
 def get_items():
@@ -95,9 +94,8 @@ def update_item(id):
 def delete_item(id):
     return item_controller.delete_item(id)
 
-# ==========================
 # Claim Routes
-# ==========================
+
 
 @app.route("/claims", methods=["POST"])
 def create_claim():
@@ -122,6 +120,28 @@ def approve_claim(id):
 @app.route("/claims/<int:id>/reject", methods=["PUT"])
 def reject_claim(id):
     return claim_controller.reject_claim(id)
+
+# Category Routes
+
+@app.route("/categories", methods=["GET"])
+def get_categories():
+    return category_controller.get_categories()
+
+
+@app.route("/categories/<int:id>", methods=["GET"])
+def get_category(id):
+    return category_controller.get_category(id)
+
+
+@app.route("/categories", methods=["POST"])
+def create_category():
+    return category_controller.create_category()
+
+
+@app.route("/categories/<int:id>", methods=["DELETE"])
+def delete_category(id):
+    return category_controller.delete_category(id)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
