@@ -142,6 +142,7 @@ def create_category():
 def delete_category(id):
     return category_controller.delete_category(id)
 
+print(app.url_map)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=3000)

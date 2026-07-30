@@ -1,6 +1,6 @@
 # 🌐 Campus Lost and Found Management System
 
-A full-stack web application built to help students, staff, and administrators report lost and found items in one centralized place. The system replaces informal channels such as notice boards, WhatsApp groups, and word of mouth with a reliable digital platform for reporting, searching, uploading images, and submitting claims.
+A full-stack web application built to help students, staff, and administrators report lost and found items in one centralized place. The system replaces informal channels such as notice boards, WhatsApp groups, and word of mouth with a reliable digital platform for reporting, searching, adding image URLs, and submitting claims.
 
 This project is a practical example of a modern Flask + React application with authentication, database modeling, migrations, and API-based communication.
 
@@ -35,7 +35,7 @@ The system allows users to:
 - register and log in securely
 - create lost item reports
 - create found item reports
-- upload item images
+- add image URLs to items
 - search and filter listings
 - submit ownership claims
 - track claim status
@@ -63,9 +63,7 @@ The platform provides a centralized digital workflow for handling lost and found
 The app supports:
 
 - user accounts and authentication
-- profile management
 - category-based item reporting
-- image uploads
 - claim submission and review
 - item status tracking
 
@@ -85,11 +83,6 @@ The app supports:
 - report found items
 - add descriptions, location, and category
 - track status such as Pending, Claimed, and Returned
-
-### Media Support
-
-- upload item images
-- associate images with an item report
 
 ### Claims
 
@@ -141,25 +134,52 @@ The app supports:
 
 ```text
 Campus lost and found/
-├── main.py
+├── app.py
 ├── extensions.py
 ├── Pipfile
 ├── README.md
+├── seed.py
+├── .gitignore
 ├── controllers/
-├── migrations/
+│   ├── __init__.py
+│   ├── auth_controller.py
+│   ├── category_controller.py
+│   ├── claim_controller.py
+│   ├── item_controller.py
+│   └── user_controller.py
 ├── models/
+│   ├── __init__.py
 │   ├── user.py
-│   ├── profile.py
 │   ├── category.py
 │   ├── item.py
-│   ├── item_image.py
 │   └── claim.py
 ├── schemas/
+│   ├── __init__.py
+│   ├── user_schema.py
+│   ├── category_schema.py
+│   ├── item_schema.py
+│   └── claim_schema.py
+├── migrations/
+│   ├── alembic.ini
+│   ├── env.py
+│   ├── README
+│   ├── script.py.mako
+│   └── versions/
 ├── instance/
 └── client/
-    ├── src/
+    ├── .gitignore
+    ├── eslint.config.js
+    ├── index.html
     ├── package.json
-    └── vite.config.js
+    ├── package-lock.json
+    ├── vite.config.js
+    ├── README.md
+    ├── public/
+    └── src/
+        ├── main.jsx
+        ├── App.jsx
+        ├── index.css
+        └── assets/
 ```
 
 ---
@@ -168,31 +188,26 @@ Campus lost and found/
 
 The application uses a relational database model with the following relationships:
 
-- One-to-One: User to Profile
 - One-to-Many: User to Item
 - One-to-Many: Category to Item
-- One-to-Many: Item to ItemImage
-- Many-to-Many: User and Item through Claim
+- One-to-Many: User to Claim
+- One-to-Many: Item to Claim
 
 ### Main Models
 
 | Model | Purpose |
 | --- | --- |
 | User | stores account credentials and role |
-| Profile | stores profile details for a user |
 | Category | classifies items into categories |
 | Item | stores the main lost/found record |
-| ItemImage | stores uploaded image references |
 | Claim | records claims made by users for items |
 
 ### ER Diagram
 
 ```mermaid
 erDiagram
-    USER ||--o| PROFILE : has
     USER ||--o{ ITEM : reports
     CATEGORY ||--o{ ITEM : categorizes
-    ITEM ||--o{ ITEM_IMAGE : contains
     USER ||--o{ CLAIM : submits
     ITEM ||--o{ CLAIM : receives
 
@@ -202,25 +217,11 @@ erDiagram
         string email UK
         string password_hash
         string role
-        datetime created_at
-    }
-
-    PROFILE {
-        int id PK
-        int user_id FK
-        string full_name
-        string phone_number
-        string student_id UK
-        string department
-        string avatar
-        datetime created_at
     }
 
     CATEGORY {
         int id PK
         string name UK
-        text description
-        datetime created_at
     }
 
     ITEM {
@@ -232,14 +233,8 @@ erDiagram
         string item_type
         string status
         string location
-        datetime date_reported
-    }
-
-    ITEM_IMAGE {
-        int id PK
-        int item_id FK
         string image_url
-        datetime uploaded_at
+        datetime date_reported
     }
 
     CLAIM {
@@ -276,7 +271,7 @@ Authorization: Bearer <access_token>
 
 ## 📡 API Overview
 
-The backend exposes endpoints for authentication, users, profiles, items, categories, claims, and uploads.
+The backend exposes endpoints for authentication, users, items, categories, and claims.
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
