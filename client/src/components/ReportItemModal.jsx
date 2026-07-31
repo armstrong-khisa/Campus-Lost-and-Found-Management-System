@@ -1,4 +1,4 @@
-import { X, Upload, MapPin, Calendar } from 'lucide-react';
+import { X, MapPin, Calendar } from 'lucide-react';
 import { useState } from 'react';
 
 function ReportItemModal({ isOpen, onClose }) {
@@ -8,8 +8,10 @@ function ReportItemModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="relative w-[450px] overflow-hidden rounded-[30px] bg-white shadow-[0_20px_60px_rgba(0,0,0,.18)]">
-        {/* Background */}
+
+      <div className="relative w-[380px] overflow-hidden rounded-[30px] bg-white shadow-[0_20px_60px_rgba(0,0,0,.18)]">
+
+        {/* Pattern Background */}
 
         <div
           className="absolute inset-0 opacity-30"
@@ -21,67 +23,76 @@ function ReportItemModal({ isOpen, onClose }) {
           }}
         />
 
-        <div className="relative z-10 p-6">
-          {/* Close */}
+
+        <div className="relative z-10 p-5">
+
+
+          {/* Close Button */}
 
           <button
             onClick={onClose}
-
-            className="
-            absolute 
-            right-5 
-            top-5 
-            text-slate-400
-            hover:text-slate-700
-            "
+            className="absolute right-5 top-5 text-slate-400 transition hover:text-slate-700"
           >
             <X size={20} />
           </button>
 
+
+
           {/* Header */}
 
-          <h2 className="text-center text-2xl font-bold text-slate-800">Report Item</h2>
+          <h2 className="text-center text-xl font-bold text-slate-800">
+            Report Item
+          </h2>
 
           <p className="mt-1 text-center text-sm text-slate-500">
             Help the campus community find lost items.
           </p>
 
+
+
           {/* Lost / Found */}
 
-          <div className="mt-5 flex gap-3">
+          <div className="mt-4 flex gap-3">
+
             <button
               onClick={() => setType('Lost')}
-
-              className={`
-              flex-1 rounded-xl py-3 font-medium transition
-              ${type === 'Lost' ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-600'}
-              `}
+              className={`flex-1 rounded-xl py-2.5 text-sm font-medium transition ${
+                type === 'Lost'
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-slate-100 text-slate-600'
+              }`}
             >
               Lost Item
             </button>
 
+
             <button
               onClick={() => setType('Found')}
-
-              className={`
-              flex-1 rounded-xl py-3 font-medium transition
-              ${type === 'Found' ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-600'}
-              `}
+              className={`flex-1 rounded-xl py-2.5 text-sm font-medium transition ${
+                type === 'Found'
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-slate-100 text-slate-600'
+              }`}
             >
               Found Item
             </button>
+
           </div>
+
+
 
           {/* Item Name */}
 
           <Input placeholder="Item name" />
+
+
 
           {/* Category */}
 
           <select
             className="
             mt-3
-            h-11
+            h-10
             w-full
             rounded-xl
             border
@@ -90,53 +101,81 @@ function ReportItemModal({ isOpen, onClose }) {
             px-3
             text-sm
             outline-none
+            focus:border-orange-500
             "
           >
-            <option>Select category</option>
 
-            <option>Electronics</option>
+            <option>
+              Select category
+            </option>
 
-            <option>Documents</option>
+            <option>
+              Electronics
+            </option>
 
-            <option>Accessories</option>
+            <option>
+              Documents
+            </option>
 
-            <option>Clothing</option>
+            <option>
+              Accessories
+            </option>
 
-            <option>Books</option>
+            <option>
+              Clothing
+            </option>
+
+            <option>
+              Books
+            </option>
+
           </select>
+
+
 
           {/* Location */}
 
-          <div className="mt-3 flex h-11 items-center rounded-xl border border-[#E8DED2] px-3">
-            <MapPin size={18} className="text-slate-400" />
+          <div className="mt-3 flex h-10 items-center rounded-xl border border-[#E8DED2] px-3">
+
+            <MapPin
+              size={17}
+              className="text-slate-400"
+            />
 
             <input
               placeholder="Location"
-
-              className="ml-2 w-full outline-none text-sm"
+              className="ml-2 w-full text-sm outline-none"
             />
+
           </div>
+
+
 
           {/* Date */}
 
-          <div className="mt-3 flex h-11 items-center rounded-xl border border-[#E8DED2] px-3">
-            <Calendar size={18} className="text-slate-400" />
+          <div className="mt-3 flex h-10 items-center rounded-xl border border-[#E8DED2] px-3">
+
+            <Calendar
+              size={17}
+              className="text-slate-400"
+            />
 
             <input
               type="date"
-
-              className="ml-2 w-full outline-none text-sm"
+              className="ml-2 w-full text-sm outline-none"
             />
+
           </div>
+
+
 
           {/* Description */}
 
           <textarea
             placeholder="Describe the item..."
-
             className="
             mt-3
-            h-24
+            h-20
             w-full
             resize-none
             rounded-xl
@@ -145,63 +184,84 @@ function ReportItemModal({ isOpen, onClose }) {
             p-3
             text-sm
             outline-none
+            focus:border-orange-500
             "
           />
 
-          {/* Upload */}
 
-          <button
-            className="
-            mt-3
-            flex
-            w-full
-            items-center
-            justify-center
-            gap-2
-            rounded-xl
-            border
-            border-dashed
-            border-orange-300
-            py-3
-            text-orange-500
-            hover:bg-orange-50
-            "
-          >
-            <Upload size={18} />
-            Upload Image
-          </button>
+
+          {/* Image URL */}
+
+          <div className="mt-3">
+
+            <label className="text-sm font-medium text-slate-700">
+              Image URL
+              <span className="ml-1 text-slate-400">
+                (optional)
+              </span>
+            </label>
+
+
+            <input
+              type="url"
+              placeholder="Paste image link..."
+              className="
+              mt-2
+              h-10
+              w-full
+              rounded-xl
+              border
+              border-[#E8DED2]
+              px-3
+              text-sm
+              outline-none
+              focus:border-orange-500
+              "
+            />
+
+          </div>
+
+
 
           {/* Submit */}
 
           <button
             className="
-            mt-5
-            h-11
+            mt-4
+            h-10
             w-full
             rounded-xl
             bg-orange-500
+            text-sm
             font-semibold
             text-white
-            hover:bg-orange-600
             transition
+            hover:bg-orange-600
             "
           >
             Submit Report
           </button>
+
+
         </div>
+
       </div>
+
     </div>
   );
 }
 
+
+
 function Input({ placeholder }) {
+
   return (
+
     <input
       placeholder={placeholder}
-
       className="
       mt-3
-      h-11
+      h-10
       w-full
       rounded-xl
       border
@@ -209,9 +269,13 @@ function Input({ placeholder }) {
       px-3
       text-sm
       outline-none
+      focus:border-orange-500
       "
     />
+
   );
+
 }
+
 
 export default ReportItemModal;

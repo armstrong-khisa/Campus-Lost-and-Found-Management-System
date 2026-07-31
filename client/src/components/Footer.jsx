@@ -10,7 +10,7 @@ function Footer() {
           <div className="group">
             <div className="flex items-center">
               <img
-                src="/logo.svg"
+                src="/logo.png"
                 className="h-10 transition-transform duration-300 group-hover:scale-105"
               />
             </div>
