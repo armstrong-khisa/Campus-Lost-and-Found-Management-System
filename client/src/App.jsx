@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import AuthModal from "./components/AuthModal";
+import Footer from "./components/Footer";
 
 function App() {
   const [showAuth, setShowAuth] = useState(false);
@@ -32,6 +33,7 @@ function App() {
         isOpen={showAuth}
         onClose={() => setShowAuth(false)}
       />
+      <Footer />
     </>
   );
 }
