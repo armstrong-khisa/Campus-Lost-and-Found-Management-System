@@ -1,25 +1,17 @@
-import { X, Upload } from "lucide-react";
-import { useState } from "react";
+import { X, Upload } from 'lucide-react';
+import { useState } from 'react';
 
 function ClaimItemModal({ isOpen, onClose, item }) {
-
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   if (!isOpen) return null;
 
-
   return (
-
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-
-
       <div className="relative w-[450px] rounded-3xl bg-white p-6 shadow-xl">
-
-
         {/* Close */}
 
         <button
-
           onClick={onClose}
 
           className="
@@ -29,96 +21,41 @@ function ClaimItemModal({ isOpen, onClose, item }) {
           text-slate-400 
           hover:text-slate-700
           "
-
         >
-
-          <X size={22}/>
-
+          <X size={22} />
         </button>
-
-
-
-
 
         {/* Header */}
 
-        <h2 className="text-2xl font-bold text-slate-800">
-
-          Claim Item
-
-        </h2>
-
+        <h2 className="text-2xl font-bold text-slate-800">Claim Item</h2>
 
         <p className="mt-1 text-sm text-slate-500">
-
           Provide details to prove this item belongs to you.
-
         </p>
-
-
-
-
-
 
         {/* Item Preview */}
 
         <div className="mt-5 flex gap-4 rounded-2xl bg-slate-50 p-4">
-
-
           <div className="h-20 w-20 rounded-xl bg-slate-200"></div>
 
-
           <div>
+            <h3 className="font-semibold text-slate-800">{item?.name || 'HP Laptop'}</h3>
 
-            <h3 className="font-semibold text-slate-800">
+            <p className="text-sm text-slate-500">{item?.location || 'Library'}</p>
 
-              {item?.name || "HP Laptop"}
-
-            </h3>
-
-
-            <p className="text-sm text-slate-500">
-
-              {item?.location || "Library"}
-
-            </p>
-
-
-            <p className="text-sm text-slate-500">
-
-              Lost item
-
-            </p>
-
-
+            <p className="text-sm text-slate-500">Lost item</p>
           </div>
-
-
         </div>
-
-
-
-
-
-
 
         {/* Claim Details */}
 
         <div className="mt-5">
-
-
-          <label className="text-sm font-medium text-slate-700">
-
-            Why is this your item?
-
-          </label>
-
+          <label className="text-sm font-medium text-slate-700">Why is this your item?</label>
 
           <textarea
-
             value={message}
 
-            onChange={(e)=>setMessage(e.target.value)}
+            onChange={(e) => setMessage(e.target.value)}
 
             placeholder="Describe identifying details..."
 
@@ -134,22 +71,12 @@ function ClaimItemModal({ isOpen, onClose, item }) {
             outline-none
             focus:border-orange-500
             "
-
           />
-
-
         </div>
-
-
-
-
-
-
 
         {/* Upload Proof */}
 
         <button
-
           className="
           mt-4
           flex
@@ -165,26 +92,14 @@ function ClaimItemModal({ isOpen, onClose, item }) {
           text-orange-500
           hover:bg-orange-50
           "
-
         >
-
-          <Upload size={18}/>
-
+          <Upload size={18} />
           Upload Proof (optional)
-
         </button>
-
-
-
-
-
-
-
 
         {/* Submit */}
 
         <button
-
           className="
           mt-5
           h-11
@@ -196,24 +111,12 @@ function ClaimItemModal({ isOpen, onClose, item }) {
           transition
           hover:bg-orange-600
           "
-
         >
-
           Submit Claim
-
         </button>
-
-
-
-
       </div>
-
-
     </div>
-
   );
-
 }
-
 
 export default ClaimItemModal;

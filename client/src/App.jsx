@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import Home from "./pages/Home";
-import Items from "./pages/Items";
-import ItemDetails from "./pages/ItemDetails";
-import Dashboard from "./pages/Dashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import NotFound from "./pages/NotFound";
-import Navbar from "./components/Navbar";
-import About from "./pages/About";
-import AuthModal from "./components/AuthModal";
-import Footer from "./components/Footer";
+import Home from './pages/Home';
+import Items from './pages/Items';
+import ItemDetails from './pages/ItemDetails';
+import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import NotFound from './pages/NotFound';
+import Navbar from './components/Navbar';
+import About from './pages/About';
+import AuthModal from './components/AuthModal';
+import Footer from './components/Footer';
 
 function App() {
   const [showAuth, setShowAuth] = useState(false);
@@ -29,10 +29,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      <AuthModal
-        isOpen={showAuth}
-        onClose={() => setShowAuth(false)}
-      />
+      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
       <Footer />
     </>
   );

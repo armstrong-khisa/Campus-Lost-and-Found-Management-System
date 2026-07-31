@@ -7,114 +7,90 @@ import {
   Tags,
   LogOut,
   CheckCircle,
-  Clock
-} from "lucide-react";
+  Clock,
+} from 'lucide-react';
 
-import { useState } from "react";
+import { useState } from 'react';
 
-import UsersPage from "./admin/Users";
-import ItemsPage from "./admin/Items";
-import ClaimsPage from "./admin/Claims";
-import ReportsPage from "./admin/Reports";
-import CategoriesPage from "./admin/Categories";
-
+import UsersPage from './admin/Users';
+import ItemsPage from './admin/Items';
+import ClaimsPage from './admin/Claims';
+import ReportsPage from './admin/Reports';
+import CategoriesPage from './admin/Categories';
 
 function AdminDashboard() {
-
-  const [activePage, setActivePage] = useState("Dashboard");
-
+  const [activePage, setActivePage] = useState('Dashboard');
 
   const renderPage = () => {
-
-    switch(activePage){
-
-      case "Users":
+    switch (activePage) {
+      case 'Users':
         return <UsersPage />;
 
-      case "Items":
+      case 'Items':
         return <ItemsPage />;
 
-      case "Claims":
+      case 'Claims':
         return <ClaimsPage />;
 
-      case "Reports":
+      case 'Reports':
         return <ReportsPage />;
 
-      case "Categories":
+      case 'Categories':
         return <CategoriesPage />;
 
       default:
         return <DashboardHome />;
-
     }
-
   };
 
-
   return (
-
     <section className="min-h-screen bg-slate-50 flex">
-
-
       {/* Sidebar */}
 
       <aside className="w-64 bg-white border-r border-slate-200 p-6 hidden md:block">
-
-
         <nav className="space-y-2">
-
-
           <AdminNav
-            icon={<LayoutDashboard size={20}/>}
+            icon={<LayoutDashboard size={20} />}
             text="Dashboard"
-            active={activePage === "Dashboard"}
-            onClick={() => setActivePage("Dashboard")}
+            active={activePage === 'Dashboard'}
+            onClick={() => setActivePage('Dashboard')}
           />
 
-
           <AdminNav
-            icon={<Users size={20}/>}
+            icon={<Users size={20} />}
             text="Users"
-            active={activePage === "Users"}
-            onClick={() => setActivePage("Users")}
+            active={activePage === 'Users'}
+            onClick={() => setActivePage('Users')}
           />
 
-
           <AdminNav
-            icon={<Package size={20}/>}
+            icon={<Package size={20} />}
             text="Items"
-            active={activePage === "Items"}
-            onClick={() => setActivePage("Items")}
+            active={activePage === 'Items'}
+            onClick={() => setActivePage('Items')}
           />
 
-
           <AdminNav
-            icon={<ClipboardCheck size={20}/>}
+            icon={<ClipboardCheck size={20} />}
             text="Claims"
-            active={activePage === "Claims"}
-            onClick={() => setActivePage("Claims")}
+            active={activePage === 'Claims'}
+            onClick={() => setActivePage('Claims')}
           />
 
-
           <AdminNav
-            icon={<FileText size={20}/>}
+            icon={<FileText size={20} />}
             text="Reports"
-            active={activePage === "Reports"}
-            onClick={() => setActivePage("Reports")}
+            active={activePage === 'Reports'}
+            onClick={() => setActivePage('Reports')}
           />
-
 
           <AdminNav
-            icon={<Tags size={20}/>}
+            icon={<Tags size={20} />}
             text="Categories"
-            active={activePage === "Categories"}
-            onClick={() => setActivePage("Categories")}
+            active={activePage === 'Categories'}
+            onClick={() => setActivePage('Categories')}
           />
-
-
         </nav>
-
-
 
         <button
           className="
@@ -125,108 +101,59 @@ function AdminDashboard() {
           transition
           "
         >
-
-          <LogOut size={20}/>
-
+          <LogOut size={20} />
           Logout
-
         </button>
-
-
       </aside>
-
-
-
-
 
       {/* Main Content */}
 
-      <main className="flex-1">
-
-
-        {renderPage()}
-
-
-      </main>
-
-
-
+      <main className="flex-1">{renderPage()}</main>
     </section>
-
   );
-
 }
 
-
-
-
-
-
-
-
-
-function DashboardHome(){
-
-
+function DashboardHome() {
   const stats = [
-
     {
-      title:"Total Users",
-      count:"1,250",
-      icon:<Users size={22}/>,
-      color:"bg-blue-100 text-blue-500"
+      title: 'Total Users',
+      count: '1,250',
+      icon: <Users size={22} />,
+      color: 'bg-blue-100 text-blue-500',
     },
 
     {
-      title:"Total Items",
-      count:"340",
-      icon:<Package size={22}/>,
-      color:"bg-orange-100 text-orange-500"
+      title: 'Total Items',
+      count: '340',
+      icon: <Package size={22} />,
+      color: 'bg-orange-100 text-orange-500',
     },
 
     {
-      title:"Pending Claims",
-      count:"28",
-      icon:<Clock size={22}/>,
-      color:"bg-yellow-100 text-yellow-500"
+      title: 'Pending Claims',
+      count: '28',
+      icon: <Clock size={22} />,
+      color: 'bg-yellow-100 text-yellow-500',
     },
 
     {
-      title:"Resolved Cases",
-      count:"210",
-      icon:<CheckCircle size={22}/>,
-      color:"bg-green-100 text-green-500"
-    }
-
+      title: 'Resolved Cases',
+      count: '210',
+      icon: <CheckCircle size={22} />,
+      color: 'bg-green-100 text-green-500',
+    },
   ];
 
-
-
   return (
-
     <div className="p-6 md:p-10">
-
-
       {/* Header */}
 
       <div className="flex justify-between items-start">
-
-
         <div>
+          <h1 className="text-3xl font-bold text-slate-800">Welcome back, Admin</h1>
 
-          <h1 className="text-3xl font-bold text-slate-800">
-            Welcome back, Admin
-          </h1>
-
-
-          <p className="mt-2 text-slate-500">
-            Manage campus lost and found activities.
-          </p>
-
+          <p className="mt-2 text-slate-500">Manage campus lost and found activities.</p>
         </div>
-
-
-
 
         <button
           className="
@@ -239,30 +166,15 @@ function DashboardHome(){
           transition
           "
         >
-
-          <LogOut size={18}/>
-
+          <LogOut size={18} />
           Logout
-
         </button>
-
-
       </div>
-
-
-
-
-
-
 
       {/* Stats */}
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
-
-
-        {stats.map((item)=>(
-
-
+        {stats.map((item) => (
           <div
             key={item.title}
             className="
@@ -274,8 +186,6 @@ function DashboardHome(){
             transition
             "
           >
-
-
             <div
               className={`
               h-11 w-11
@@ -284,128 +194,47 @@ function DashboardHome(){
               ${item.color}
               `}
             >
-
               {item.icon}
-
             </div>
 
+            <h2 className="mt-4 text-3xl font-bold text-slate-800">{item.count}</h2>
 
-
-            <h2 className="mt-4 text-3xl font-bold text-slate-800">
-              {item.count}
-            </h2>
-
-
-            <p className="text-slate-500">
-              {item.title}
-            </p>
-
-
+            <p className="text-slate-500">{item.title}</p>
           </div>
-
-
         ))}
-
-
       </div>
-
-
-
-
 
       {/* Activity */}
 
       <div className="grid lg:grid-cols-2 gap-6 mt-8">
-
-
         <div className="bg-white rounded-2xl p-6 shadow-sm">
-
-
-          <h2 className="text-xl font-bold text-slate-800">
-            Recent Items
-          </h2>
-
+          <h2 className="text-xl font-bold text-slate-800">Recent Items</h2>
 
           <div className="mt-5 space-y-4">
+            <ActivityItem title="HP Laptop" status="Pending Review" />
 
+            <ActivityItem title="Student ID Card" status="Approved" />
 
-            <ActivityItem
-              title="HP Laptop"
-              status="Pending Review"
-            />
-
-
-            <ActivityItem
-              title="Student ID Card"
-              status="Approved"
-            />
-
-
-            <ActivityItem
-              title="Backpack"
-              status="Reported"
-            />
-
-
+            <ActivityItem title="Backpack" status="Reported" />
           </div>
-
-
         </div>
-
-
-
-
 
         <div className="bg-white rounded-2xl p-6 shadow-sm">
-
-
-          <h2 className="text-xl font-bold text-slate-800">
-            Pending Claims
-          </h2>
-
+          <h2 className="text-xl font-bold text-slate-800">Pending Claims</h2>
 
           <div className="mt-5 space-y-4">
+            <ClaimItem item="HP Laptop" user="John Kamau" />
 
-
-            <ClaimItem
-              item="HP Laptop"
-              user="John Kamau"
-            />
-
-
-            <ClaimItem
-              item="Backpack"
-              user="Mary Wanjiku"
-            />
-
-
+            <ClaimItem item="Backpack" user="Mary Wanjiku" />
           </div>
-
-
         </div>
-
-
-
       </div>
-
-
     </div>
-
   );
-
 }
 
-
-
-
-
-
-
-
-function AdminNav({icon,text,active,onClick}){
-
+function AdminNav({ icon, text, active, onClick }) {
   return (
-
     <button
       onClick={onClick}
       className={`
@@ -416,101 +245,44 @@ function AdminNav({icon,text,active,onClick}){
       transition
       ${
         active
-        ?
-        "bg-orange-500 text-white"
-        :
-        "text-slate-500 hover:bg-orange-50 hover:text-orange-500"
+          ? 'bg-orange-500 text-white'
+          : 'text-slate-500 hover:bg-orange-50 hover:text-orange-500'
       }
       `}
     >
-
       {icon}
 
       {text}
-
     </button>
-
   );
-
 }
 
-
-
-
-
-
-
-
-function ActivityItem({title,status}){
-
+function ActivityItem({ title, status }) {
   return (
-
     <div className="flex justify-between border-b border-slate-100 pb-3">
-
       <div>
+        <h3 className="font-semibold text-slate-800">{title}</h3>
 
-        <h3 className="font-semibold text-slate-800">
-          {title}
-        </h3>
-
-        <p className="text-sm text-slate-500">
-          Recently submitted
-        </p>
-
+        <p className="text-sm text-slate-500">Recently submitted</p>
       </div>
 
-
-      <span className="text-sm text-orange-500">
-        {status}
-      </span>
-
-
+      <span className="text-sm text-orange-500">{status}</span>
     </div>
-
   );
-
 }
 
-
-
-
-
-
-
-
-function ClaimItem({item,user}){
-
+function ClaimItem({ item, user }) {
   return (
-
     <div className="flex justify-between border-b border-slate-100 pb-3">
-
-
       <div>
+        <h3 className="font-semibold text-slate-800">{item}</h3>
 
-        <h3 className="font-semibold text-slate-800">
-          {item}
-        </h3>
-
-
-        <p className="text-sm text-slate-500">
-          Claimed by {user}
-        </p>
-
-
+        <p className="text-sm text-slate-500">Claimed by {user}</p>
       </div>
 
-
-      <button className="text-orange-500">
-        Review
-      </button>
-
-
+      <button className="text-orange-500">Review</button>
     </div>
-
   );
-
 }
-
-
 
 export default AdminDashboard;
