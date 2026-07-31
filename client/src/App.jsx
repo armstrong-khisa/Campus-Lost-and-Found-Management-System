@@ -6,9 +6,12 @@ import ItemDetails from "./pages/ItemDetails";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
+    <>
+    <Navbar />
     <Routes>
       <Route path="/" element={<Home />} />
 
@@ -22,6 +25,7 @@ function App() {
 
       <Route path="*" element={<NotFound />} />
     </Routes>
+    </>
   );
 }
 
