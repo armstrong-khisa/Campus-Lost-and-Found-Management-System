@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
 
+      <Route path="/about" element={<About />} />
+      
       <Route path="/items" element={<Items />} />
 
       <Route path="/items/:id" element={<ItemDetails />} />
