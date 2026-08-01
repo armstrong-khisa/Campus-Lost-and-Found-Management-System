@@ -32,7 +32,7 @@ function AuthModal({ isOpen, onClose }) {
           <div className="h-full flex flex-col justify-center">
             {/* Logo */}
             <div className="flex justify-center mb-2">
-              <img src="/logo.svg" className="h-10" />
+              <img src="/logo.png" className="h-10" />
             </div>
 
             {isRegister ? (
