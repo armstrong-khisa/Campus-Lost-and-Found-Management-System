@@ -19,10 +19,7 @@ function App() {
 
   return (
     <>
-      <Navbar
-        onLoginClick={() => setShowAuth(true)}
-        onReportClick={() => setShowReport(true)}
-      />
+      <Navbar onLoginClick={() => setShowAuth(true)} onReportClick={() => setShowReport(true)} />
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -40,18 +37,9 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
+      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
 
-      <AuthModal
-        isOpen={showAuth}
-        onClose={() => setShowAuth(false)}
-      />
-
-
-      <ReportItemModal
-        isOpen={showReport}
-        onClose={() => setShowReport(false)}
-      />
-
+      <ReportItemModal isOpen={showReport} onClose={() => setShowReport(false)} />
 
       <Footer />
     </>

@@ -8,9 +8,7 @@ function ReportItemModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-
       <div className="relative w-[380px] overflow-hidden rounded-[30px] bg-white shadow-[0_20px_60px_rgba(0,0,0,.18)]">
-
         {/* Pattern Background */}
 
         <div
@@ -23,10 +21,7 @@ function ReportItemModal({ isOpen, onClose }) {
           }}
         />
 
-
         <div className="relative z-10 p-5">
-
-
           {/* Close Button */}
 
           <button
@@ -36,56 +31,39 @@ function ReportItemModal({ isOpen, onClose }) {
             <X size={20} />
           </button>
 
-
-
           {/* Header */}
 
-          <h2 className="text-center text-xl font-bold text-slate-800">
-            Report Item
-          </h2>
+          <h2 className="text-center text-xl font-bold text-slate-800">Report Item</h2>
 
           <p className="mt-1 text-center text-sm text-slate-500">
             Help the campus community find lost items.
           </p>
 
-
-
           {/* Lost / Found */}
 
           <div className="mt-4 flex gap-3">
-
             <button
               onClick={() => setType('Lost')}
               className={`flex-1 rounded-xl py-2.5 text-sm font-medium transition ${
-                type === 'Lost'
-                  ? 'bg-orange-500 text-white'
-                  : 'bg-slate-100 text-slate-600'
+                type === 'Lost' ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-600'
               }`}
             >
               Lost Item
             </button>
 
-
             <button
               onClick={() => setType('Found')}
               className={`flex-1 rounded-xl py-2.5 text-sm font-medium transition ${
-                type === 'Found'
-                  ? 'bg-orange-500 text-white'
-                  : 'bg-slate-100 text-slate-600'
+                type === 'Found' ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-600'
               }`}
             >
               Found Item
             </button>
-
           </div>
-
-
 
           {/* Item Name */}
 
           <Input placeholder="Item name" />
-
-
 
           {/* Category */}
 
@@ -104,70 +82,34 @@ function ReportItemModal({ isOpen, onClose }) {
             focus:border-orange-500
             "
           >
+            <option>Select category</option>
 
-            <option>
-              Select category
-            </option>
+            <option>Electronics</option>
 
-            <option>
-              Electronics
-            </option>
+            <option>Documents</option>
 
-            <option>
-              Documents
-            </option>
+            <option>Accessories</option>
 
-            <option>
-              Accessories
-            </option>
+            <option>Clothing</option>
 
-            <option>
-              Clothing
-            </option>
-
-            <option>
-              Books
-            </option>
-
+            <option>Books</option>
           </select>
-
-
 
           {/* Location */}
 
           <div className="mt-3 flex h-10 items-center rounded-xl border border-[#E8DED2] px-3">
+            <MapPin size={17} className="text-slate-400" />
 
-            <MapPin
-              size={17}
-              className="text-slate-400"
-            />
-
-            <input
-              placeholder="Location"
-              className="ml-2 w-full text-sm outline-none"
-            />
-
+            <input placeholder="Location" className="ml-2 w-full text-sm outline-none" />
           </div>
-
-
 
           {/* Date */}
 
           <div className="mt-3 flex h-10 items-center rounded-xl border border-[#E8DED2] px-3">
+            <Calendar size={17} className="text-slate-400" />
 
-            <Calendar
-              size={17}
-              className="text-slate-400"
-            />
-
-            <input
-              type="date"
-              className="ml-2 w-full text-sm outline-none"
-            />
-
+            <input type="date" className="ml-2 w-full text-sm outline-none" />
           </div>
-
-
 
           {/* Description */}
 
@@ -188,19 +130,13 @@ function ReportItemModal({ isOpen, onClose }) {
             "
           />
 
-
-
           {/* Image URL */}
 
           <div className="mt-3">
-
             <label className="text-sm font-medium text-slate-700">
               Image URL
-              <span className="ml-1 text-slate-400">
-                (optional)
-              </span>
+              <span className="ml-1 text-slate-400">(optional)</span>
             </label>
-
 
             <input
               type="url"
@@ -218,10 +154,7 @@ function ReportItemModal({ isOpen, onClose }) {
               focus:border-orange-500
               "
             />
-
           </div>
-
-
 
           {/* Submit */}
 
@@ -241,22 +174,14 @@ function ReportItemModal({ isOpen, onClose }) {
           >
             Submit Report
           </button>
-
-
         </div>
-
       </div>
-
     </div>
   );
 }
 
-
-
 function Input({ placeholder }) {
-
   return (
-
     <input
       placeholder={placeholder}
       className="
@@ -272,10 +197,7 @@ function Input({ placeholder }) {
       focus:border-orange-500
       "
     />
-
   );
-
 }
-
 
 export default ReportItemModal;

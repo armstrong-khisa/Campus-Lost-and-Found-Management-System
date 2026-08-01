@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom';
 import { Plus, LogIn } from 'lucide-react';
 
 function Navbar({ onLoginClick, onReportClick }) {
-
   const linkStyle = ({ isActive }) =>
     `
     rounded-xl
@@ -29,9 +28,9 @@ function Navbar({ onLoginClick, onReportClick }) {
     }
     `;
 
-
   return (
-    <nav className="
+    <nav
+      className="
     sticky
     top-0
     z-50
@@ -40,9 +39,10 @@ function Navbar({ onLoginClick, onReportClick }) {
     bg-white/70
     backdrop-blur-xl
     shadow-sm
-    ">
-
-      <div className="
+    "
+    >
+      <div
+        className="
       mx-auto
       flex
       h-16
@@ -50,18 +50,13 @@ function Navbar({ onLoginClick, onReportClick }) {
       items-center
       justify-between
       px-6
-      ">
-
-
-
+      "
+      >
         {/* Logo */}
 
-        <NavLink
-          to="/"
-          className="group flex items-center gap-3"
-        >
-
-          <div className="
+        <NavLink to="/" className="group flex items-center gap-3">
+          <div
+            className="
           relative
           flex
           h-11
@@ -78,17 +73,17 @@ function Navbar({ onLoginClick, onReportClick }) {
           duration-300
           group-hover:scale-105
           group-hover:shadow-lg
-          ">
-
-
-            <div className="
+          "
+          >
+            <div
+              className="
             absolute
             inset-0
             bg-gradient-to-br
             from-orange-300/30
             to-transparent
-            " />
-
+            "
+            />
 
             <img
               src="/logo.png"
@@ -97,87 +92,55 @@ function Navbar({ onLoginClick, onReportClick }) {
               
               "
             />
-
           </div>
 
-
-
-
-          <h1 className="
+          <h1
+            className="
           text-lg
           font-bold
           text-slate-800
           transition
           duration-300
           group-hover:text-orange-500
-          ">
-
+          "
+          >
             Campus
-            <span className="text-orange-500">
-              {' '}Lost
-            </span>
-            {' '}&
-            {' '}
-            Found
-
+            <span className="text-orange-500"> Lost</span> & Found
           </h1>
-
-
         </NavLink>
-
-
-
-
 
         {/* Navigation */}
 
-        <div className="
+        <div
+          className="
         hidden
         items-center
         gap-3
         md:flex
-        ">
-
-
-          <NavLink
-            to="/"
-            className={linkStyle}
-          >
+        "
+        >
+          <NavLink to="/" className={linkStyle}>
             Home
           </NavLink>
 
-
-          <NavLink
-            to="/about"
-            className={linkStyle}
-          >
+          <NavLink to="/about" className={linkStyle}>
             About
           </NavLink>
 
-
-          <NavLink
-            to="/items"
-            className={linkStyle}
-          >
+          <NavLink to="/items" className={linkStyle}>
             Browse Items
           </NavLink>
-
-
         </div>
-
-
-
-
 
         {/* Actions */}
 
-        <div className="
+        <div
+          className="
         flex
         items-center
         gap-3
-        ">
-
-
+        "
+        >
           <button
             onClick={onReportClick}
             className="
@@ -198,14 +161,9 @@ function Navbar({ onLoginClick, onReportClick }) {
             active:scale-95
             "
           >
-
-            <Plus size={18}/>
-
+            <Plus size={18} />
             Report Item
-
           </button>
-
-
 
           <button
             onClick={onLoginClick}
@@ -230,19 +188,11 @@ function Navbar({ onLoginClick, onReportClick }) {
             active:scale-95
             "
           >
-
-            <LogIn size={18}/>
-
+            <LogIn size={18} />
             Sign In
-
           </button>
-
-
         </div>
-
-
       </div>
-
     </nav>
   );
 }

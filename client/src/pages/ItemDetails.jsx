@@ -1,11 +1,4 @@
-import {
-  ArrowLeft,
-  MapPin,
-  Clock,
-  User,
-  Tag,
-  CheckCircle,
-} from 'lucide-react';
+import { ArrowLeft, MapPin, Clock, User, Tag, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ClaimItemModal from '../components/ClaimItemModal';
@@ -38,9 +31,7 @@ function ItemDetails() {
 
           <div className="order-2 rounded-3xl bg-white p-8 shadow md:order-1">
             <div className="flex items-start justify-between">
-              <h1 className="text-3xl font-bold text-slate-800">
-                {item.name}
-              </h1>
+              <h1 className="text-3xl font-bold text-slate-800">{item.name}</h1>
 
               <span className="rounded-full bg-red-100 px-4 py-1 text-sm font-semibold text-red-500">
                 {item.type}
@@ -48,36 +39,20 @@ function ItemDetails() {
             </div>
 
             <p className="mt-4 leading-relaxed text-slate-600">
-              A silver HP laptop was lost around the campus library. It has a
-              small sticker on the back cover.
+              A silver HP laptop was lost around the campus library. It has a small sticker on the
+              back cover.
             </p>
 
             {/* Details */}
 
             <div className="mt-6 space-y-4">
-              <Info
-                icon={<Tag size={20} />}
-                title="Category"
-                value="Electronics"
-              />
+              <Info icon={<Tag size={20} />} title="Category" value="Electronics" />
 
-              <Info
-                icon={<MapPin size={20} />}
-                title="Last Seen"
-                value={item.location}
-              />
+              <Info icon={<MapPin size={20} />} title="Last Seen" value={item.location} />
 
-              <Info
-                icon={<Clock size={20} />}
-                title="Lost Date"
-                value="Yesterday at 2:30 PM"
-              />
+              <Info icon={<Clock size={20} />} title="Lost Date" value="Yesterday at 2:30 PM" />
 
-              <Info
-                icon={<User size={20} />}
-                title="Reported By"
-                value="John Doe"
-              />
+              <Info icon={<User size={20} />} title="Reported By" value="John Doe" />
             </div>
 
             {/* Claim Button */}
@@ -101,11 +76,7 @@ function ItemDetails() {
         </div>
       </div>
 
-      <ClaimItemModal
-        isOpen={claimOpen}
-        onClose={() => setClaimOpen(false)}
-        item={item}
-      />
+      <ClaimItemModal isOpen={claimOpen} onClose={() => setClaimOpen(false)} item={item} />
     </section>
   );
 }
