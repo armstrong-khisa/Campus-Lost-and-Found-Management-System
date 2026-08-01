@@ -1,23 +1,71 @@
-import { ArrowLeft, MapPin, Clock, User, Tag, CheckCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import ClaimItemModal from '../components/ClaimItemModal';
+import {
+  ArrowLeft,
+  MapPin,
+  Clock,
+  User,
+  Tag,
+  CheckCircle,
+} from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import api from "../services/api";
+import ClaimItemModal from "../components/ClaimItemModal";
 
 function ItemDetails() {
   const navigate = useNavigate();
-  const [claimOpen, setClaimOpen] = useState(false);
+  const { id } = useParams();
 
-  const item = {
-    name: 'HP Laptop',
-    location: 'Campus Library',
-    type: 'Lost',
-  };
+  const [claimOpen, setClaimOpen] = useState(false);
+  const [item, setItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // Scroll to top whenever this page opens
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
+  useEffect(() => {
+    async function fetchItem() {
+      try {
+        const data = await api.get(`/items/${id}`);
+        setItem(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchItem();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-lg font-medium text-slate-600">
+          Loading item...
+        </p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-lg text-red-500">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <section className="min-h-screen bg-slate-50 py-10">
       <div className="mx-auto max-w-6xl px-6">
-        {/* Back Button */}
 
+        {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
           className="mb-6 flex items-center gap-2 text-slate-600 transition hover:text-orange-500"
@@ -26,36 +74,58 @@ function ItemDetails() {
           Back to Items
         </button>
 
-        <div className="grid items-center gap-8 md:grid-cols-2">
-          {/* LEFT CONTENT */}
+        <div className="grid gap-8 md:grid-cols-2">
 
-          <div className="order-2 rounded-3xl bg-white p-8 shadow md:order-1">
+          {/* LEFT */}
+          <div className="rounded-3xl bg-white p-8 shadow">
+
             <div className="flex items-start justify-between">
-              <h1 className="text-3xl font-bold text-slate-800">{item.name}</h1>
+              <h1 className="text-3xl font-bold text-slate-800">
+                {item.title}
+              </h1>
 
-              <span className="rounded-full bg-red-100 px-4 py-1 text-sm font-semibold text-red-500">
-                {item.type}
+              <span
+                className={`rounded-full px-4 py-1 text-sm font-semibold text-white ${
+                  item.item_type === "Lost"
+                    ? "bg-red-500"
+                    : "bg-emerald-500"
+                }`}
+              >
+                {item.item_type}
               </span>
             </div>
 
-            <p className="mt-4 leading-relaxed text-slate-600">
-              A silver HP laptop was lost around the campus library. It has a small sticker on the
-              back cover.
+            <p className="mt-5 leading-7 text-slate-600">
+              {item.description}
             </p>
 
-            {/* Details */}
+            <div className="mt-8 space-y-5">
 
-            <div className="mt-6 space-y-4">
-              <Info icon={<Tag size={20} />} title="Category" value="Electronics" />
+              <Info
+                icon={<Tag size={20} />}
+                title="Category"
+                value={`Category #${item.category}`}
+              />
 
-              <Info icon={<MapPin size={20} />} title="Last Seen" value={item.location} />
+              <Info
+                icon={<MapPin size={20} />}
+                title="Location"
+                value={item.location}
+              />
 
-              <Info icon={<Clock size={20} />} title="Lost Date" value="Yesterday at 2:30 PM" />
+              <Info
+                icon={<Clock size={20} />}
+                title="Reported"
+                value={new Date(item.date_reported).toLocaleString()}
+              />
 
-              <Info icon={<User size={20} />} title="Reported By" value="John Doe" />
+              <Info
+                icon={<User size={20} />}
+                title="Status"
+                value={item.status}
+              />
+
             </div>
-
-            {/* Claim Button */}
 
             <button
               onClick={() => setClaimOpen(true)}
@@ -64,19 +134,36 @@ function ItemDetails() {
               <CheckCircle size={18} />
               Claim Item
             </button>
+
           </div>
 
-          {/* RIGHT IMAGE */}
+          {/* RIGHT */}
+          <div className="overflow-hidden rounded-3xl bg-white shadow">
 
-          <div className="order-1 overflow-hidden rounded-3xl bg-white shadow md:order-2">
-            <div className="flex h-[450px] items-center justify-center bg-slate-200">
-              <span className="text-slate-400">Item Image</span>
-            </div>
+            {item.image_url ? (
+              <img
+                src={item.image_url}
+                alt={item.title}
+                className="h-[500px] w-full object-cover"
+              />
+            ) : (
+              <div className="flex h-[500px] items-center justify-center bg-slate-200">
+                <span className="text-slate-500">
+                  No Image Available
+                </span>
+              </div>
+            )}
+
           </div>
+
         </div>
       </div>
 
-      <ClaimItemModal isOpen={claimOpen} onClose={() => setClaimOpen(false)} item={item} />
+      <ClaimItemModal
+        isOpen={claimOpen}
+        onClose={() => setClaimOpen(false)}
+        item={item}
+      />
     </section>
   );
 }
@@ -84,15 +171,16 @@ function ItemDetails() {
 function Info({ icon, title, value }) {
   return (
     <div className="flex items-center gap-4">
+
       <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-100 text-orange-500">
         {icon}
       </div>
 
       <div>
         <p className="text-sm text-slate-400">{title}</p>
-
         <p className="font-medium text-slate-700">{value}</p>
       </div>
+
     </div>
   );
 }

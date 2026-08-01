@@ -1,75 +1,55 @@
-import { Search, SlidersHorizontal } from 'lucide-react';
-import ItemCard from '../components/ItemCard';
+import { useEffect, useState } from "react";
+import { Search, SlidersHorizontal } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import ItemCard from "../components/ItemCard";
+import api from "../services/api";
 
 function Items() {
-  const categories = ['All', 'Electronics', 'Documents', 'Accessories', 'Clothing', 'Books'];
+  const navigate = useNavigate();
 
-  const items = [
-    {
-      id: 1,
-      name: 'HP Laptop',
-      type: 'Lost',
-      location: 'Library',
-      date: 'Yesterday',
-      image: '',
-    },
-    {
-      id: 2,
-      name: 'Student ID',
-      type: 'Found',
-      location: 'Science Block',
-      date: 'Today',
-      image: '',
-    },
-    {
-      id: 3,
-      name: 'Backpack',
-      type: 'Lost',
-      location: 'Hostel',
-      date: '2 days ago',
-      image: '',
-    },
-    {
-      id: 4,
-      name: 'Calculator',
-      type: 'Found',
-      location: 'Engineering Block',
-      date: 'Today',
-      image: '',
-    },
-    {
-      id: 5,
-      name: 'Water Bottle',
-      type: 'Lost',
-      location: 'Cafeteria',
-      date: 'Monday',
-      image: '',
-    },
-    {
-      id: 6,
-      name: 'Wallet',
-      type: 'Found',
-      location: 'Library',
-      date: 'Yesterday',
-      image: '',
-    },
-    {
-      id: 7,
-      name: 'Phone Charger',
-      type: 'Lost',
-      location: 'Lecture Hall',
-      date: '3 days ago',
-      image: '',
-    },
-    {
-      id: 8,
-      name: 'Notebook',
-      type: 'Found',
-      location: 'Computer Lab',
-      date: 'Today',
-      image: '',
-    },
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const categories = [
+    "All",
+    "Electronics",
+    "Clothing",
+    "Books",
+    "Accessories",
+    "Other",
   ];
+
+  useEffect(() => {
+    async function fetchItems() {
+      try {
+        const data = await api.get("/items");
+        setItems(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchItems();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="py-20 text-center text-lg">
+        Loading items...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="py-20 text-center text-red-500">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <section className="min-h-screen bg-slate-50 py-10">
@@ -80,7 +60,9 @@ function Items() {
             Browse <span className="text-orange-500">Items</span>
           </h1>
 
-          <p className="mt-2 text-slate-600">Find lost and found items around campus.</p>
+          <p className="mt-2 text-slate-600">
+            Find lost and found items around campus.
+          </p>
         </div>
 
         {/* Search & Filter */}
@@ -107,9 +89,9 @@ function Items() {
             <button
               key={category}
               className={`rounded-full px-5 py-2 transition ${
-                category === 'All'
-                  ? 'bg-orange-500 text-white'
-                  : 'bg-white hover:bg-orange-500 hover:text-white'
+                category === "All"
+                  ? "bg-orange-500 text-white"
+                  : "bg-white hover:bg-orange-500 hover:text-white"
               }`}
             >
               {category}
@@ -128,10 +110,7 @@ function Items() {
             <ItemCard
               key={item.id}
               item={item}
-              onView={() => {
-                console.log(item);
-                // Navigate to item details page here
-              }}
+              onView={() => navigate(`/items/${item.id}`)}
             />
           ))}
         </div>
