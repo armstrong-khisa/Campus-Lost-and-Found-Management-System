@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:3000";
+const BASE_URL = "https://campus-lost-and-found-management-system.onrender.com/";
 
 async function request(endpoint, options = {}) {
   const token = localStorage.getItem("token");

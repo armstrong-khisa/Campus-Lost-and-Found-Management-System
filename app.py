@@ -20,7 +20,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Database configuration
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///campus_lost_found.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://campus_lost_found_zwo2_user:oO3kAICXvlj5DrEfhnP3rthLTNlrT6V1@dpg-d9nm49qjnfac73bcco80-a/campus_lost_found_zwo2"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # JWT configuration
