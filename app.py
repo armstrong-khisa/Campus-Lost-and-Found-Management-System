@@ -16,15 +16,28 @@ from controllers import (
     category_controller
 )
 
+
 app = Flask(__name__)
+
 CORS(app)
 
+
 # Database configuration
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://campus_lost_found_zwo2_user:oO3kAICXvlj5DrEfhnP3rthLTNlrT6V1@dpg-d9nm49qjnfac73bcco80-a/campus_lost_found_zwo2"
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    "postgresql://campus_lost_found_zwo2_user:"
+    "oO3kAICXvlj5DrEfhnP3rthLTNlrT6V1"
+    "@dpg-d9nm49qjnfac73bcco80-a.oregon-postgres.render.com/"
+    "campus_lost_found_zwo2"
+)
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+
 # JWT configuration
-app.config["JWT_SECRET_KEY"] = "campus-lost-found-super-secret-key-2026-very-secure"
+app.config["JWT_SECRET_KEY"] = (
+    "campus-lost-found-super-secret-key-2026-very-secure"
+)
+
 
 # Initialize extensions
 db.init_app(app)
@@ -34,11 +47,19 @@ jwt.init_app(app)
 migrate.init_app(app, db)
 
 
+
+# Create database tables on Render
+with app.app_context():
+    db.create_all()
+
+
+
 @app.get("/")
 def home():
     return {
         "message": "Campus Lost and Found API is running."
     }
+
 
 # Authentication Routes
 
@@ -51,10 +72,25 @@ def register():
 def login():
     return auth_controller.login()
 
+
+
 # User Routes
+@app.get("/seed")
+def seed():
+    from seed import seed_database
+
+    with app.app_context():
+        seed_database()
+
+    return {
+        "message": "Database seeded"
+    }
+
+
 @app.route("/users", methods=["GET"])
 def get_users():
     return user_controller.get_users()
+
 
 @app.route("/users/me", methods=["GET"])
 def get_profile():
@@ -70,8 +106,9 @@ def get_my_items():
 def get_my_claims():
     return user_controller.get_my_claims()
 
-# Item Routes
 
+
+# Item Routes
 
 @app.route("/items", methods=["GET"])
 def get_items():
@@ -97,8 +134,9 @@ def update_item(id):
 def delete_item(id):
     return item_controller.delete_item(id)
 
-# Claim Routes
 
+
+# Claim Routes
 
 @app.route("/claims", methods=["POST"])
 def create_claim():
@@ -124,6 +162,8 @@ def approve_claim(id):
 def reject_claim(id):
     return claim_controller.reject_claim(id)
 
+
+
 # Category Routes
 
 @app.route("/categories", methods=["GET"])
@@ -145,7 +185,10 @@ def create_category():
 def delete_category(id):
     return category_controller.delete_category(id)
 
+
+
 print(app.url_map)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000)
