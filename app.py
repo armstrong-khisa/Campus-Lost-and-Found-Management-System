@@ -47,13 +47,6 @@ jwt.init_app(app)
 migrate.init_app(app, db)
 
 
-
-# Create database tables on Render
-with app.app_context():
-    db.create_all()
-
-
-
 @app.get("/")
 def home():
     return {
