@@ -14,20 +14,24 @@ export function AuthProvider({ children }) {
   });
 
   async function login(email, password) {
-    const data = await api.post("/auth/login", {
-      email,
-      password,
-    });
+  const data = await api.post("/auth/login", {
+    email,
+    password,
+  });
 
-    localStorage.setItem("token", data.access_token);
-    localStorage.setItem("user", JSON.stringify(data.user));
-
-    setToken(data.access_token);
-    setUser(data.user);
-
-    return data;
+  // Ensure backend returned what we expect
+  if (!data || !data.access_token || !data.user) {
+    throw new Error("Invalid email or password.");
   }
 
+  localStorage.setItem("token", data.access_token);
+  localStorage.setItem("user", JSON.stringify(data.user));
+
+  setToken(data.access_token);
+  setUser(data.user);
+
+  return data;
+}
   async function register(userData) {
     return await api.post("/auth/register", userData);
   }

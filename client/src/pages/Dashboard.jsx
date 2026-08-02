@@ -26,7 +26,7 @@ function Dashboard() {
     async function loadDashboard() {
       try {
         const myItems = await api.get("/users/me/items");
-        const myClaims = await api.get("/claims/my");
+        const myClaims = await api.get("/users/me/claims");
 
         setItems(myItems);
         setClaims(myClaims);
@@ -214,19 +214,21 @@ function Dashboard() {
 
             <div className="mt-5 space-y-4">
 
-              {claims.length === 0 ? (
-                <p className="text-slate-500">
-                  You haven't submitted any claims yet.
-                </p>
-              ) : (
-                claims.slice(0, 5).map((claim) => (
-                  <ClaimCard
-                    key={claim.id}
-                    item={`Item #${claim.item}`}
-                    status={claim.status}
-                  />
-                ))
-              )}
+             {claims.length === 0 ? (
+  <p className="text-slate-500">
+    You haven't submitted any claims yet.
+  </p>
+) : (
+  claims.slice(0, 5).map((claim) => (
+    <ClaimCard
+      key={claim.id}
+      item={claim.item}
+      message={claim.message}
+      status={claim.status}
+      date={claim.claimed_at}
+    />
+  ))
+)}
 
             </div>
           </div>
@@ -286,26 +288,44 @@ function ReportCard({
 function ClaimCard({
   item,
   status,
+  message,
+  date,
 }) {
   return (
-    <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-      <h3 className="font-semibold text-slate-800">
-        {item}
-      </h3>
+    <div className="flex items-start justify-between border-b border-slate-100 pb-4">
+
+      <div>
+        <h3 className="font-semibold text-slate-800">
+          Item #{item}
+        </h3>
+
+        <p className="mt-1 text-sm text-slate-500">
+          Claim request
+        </p>
+
+        <p className="mt-1 text-sm text-slate-500 line-clamp-2">
+          {message}
+        </p>
+
+        <p className="mt-1 flex items-center gap-2 text-sm text-slate-500">
+          <Clock size={14} />
+          {new Date(date).toLocaleDateString()}
+        </p>
+      </div>
 
       <span
-        className={`rounded-full px-3 py-1 text-sm font-medium ${
+        className={`mt-1 font-semibold ${
           status === "Approved"
-            ? "bg-green-100 text-green-600"
+            ? "text-green-500"
             : status === "Rejected"
-            ? "bg-red-100 text-red-600"
-            : "bg-orange-100 text-orange-600"
+            ? "text-red-500"
+            : "text-orange-500"
         }`}
       >
         {status}
       </span>
+
     </div>
   );
 }
-
 export default Dashboard;

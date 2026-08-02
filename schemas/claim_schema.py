@@ -6,6 +6,7 @@ class ClaimSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Claim
         load_instance = True
+        include_fk = True
         include_relationships = True
 
 

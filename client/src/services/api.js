@@ -15,13 +15,13 @@ async function request(endpoint, options = {}) {
   });
 
   // If token expired or invalid
-  if (response.status === 401) {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+ if (response.status === 401 && token) {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
 
-    window.location.href = "/";
-    return;
-  }
+  window.location.href = "/";
+  return;
+}
 
   const data = await response.json();
 
