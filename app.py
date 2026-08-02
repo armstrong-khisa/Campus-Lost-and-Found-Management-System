@@ -24,7 +24,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///campus_lost_found.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # JWT configuration
-app.config["JWT_SECRET_KEY"] = "campus-lost-found-secret-key"
+app.config["JWT_SECRET_KEY"] = "campus-lost-found-super-secret-key-2026-very-secure"
 
 # Initialize extensions
 db.init_app(app)

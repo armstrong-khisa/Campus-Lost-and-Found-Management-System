@@ -1,7 +1,11 @@
-import { NavLink } from 'react-router-dom';
-import { Plus, LogIn } from 'lucide-react';
+import { NavLink } from "react-router-dom";
+import { Plus, LogIn, LayoutDashboard } from "lucide-react";
+import { getCurrentUser, isLoggedIn } from "../services/auth";
 
 function Navbar({ onLoginClick, onReportClick }) {
+  const user = getCurrentUser();
+  const loggedIn = isLoggedIn();
+
   const linkStyle = ({ isActive }) =>
     `
     rounded-xl
@@ -31,78 +35,75 @@ function Navbar({ onLoginClick, onReportClick }) {
   return (
     <nav
       className="
-    sticky
-    top-0
-    z-50
-    border-b
-    border-white/40
-    bg-white/70
-    backdrop-blur-xl
-    shadow-sm
-    "
+        sticky
+        top-0
+        z-50
+        border-b
+        border-white/40
+        bg-white/70
+        backdrop-blur-xl
+        shadow-sm
+      "
     >
       <div
         className="
-      mx-auto
-      flex
-      h-16
-      max-w-7xl
-      items-center
-      justify-between
-      px-6
-      "
+          mx-auto
+          flex
+          h-16
+          max-w-7xl
+          items-center
+          justify-between
+          px-6
+        "
       >
         {/* Logo */}
 
         <NavLink to="/" className="group flex items-center gap-3">
           <div
             className="
-          relative
-          flex
-          h-11
-          w-11
-          items-center
-          justify-center
-          overflow-hidden
-          rounded-2xl
-          border
-          border-orange-200/60
-          bg-orange-100/50
-          backdrop-blur-md
-          transition-all
-          duration-300
-          group-hover:scale-105
-          group-hover:shadow-lg
-          "
+              relative
+              flex
+              h-11
+              w-11
+              items-center
+              justify-center
+              overflow-hidden
+              rounded-2xl
+              border
+              border-orange-200/60
+              bg-orange-100/50
+              backdrop-blur-md
+              transition-all
+              duration-300
+              group-hover:scale-105
+              group-hover:shadow-lg
+            "
           >
             <div
               className="
-            absolute
-            inset-0
-            bg-gradient-to-br
-            from-orange-300/30
-            to-transparent
-            "
+                absolute
+                inset-0
+                bg-gradient-to-br
+                from-orange-300/30
+                to-transparent
+              "
             />
 
             <img
               src="/logo.png"
               alt="Campus Lost and Found"
-              className="
-              
-              "
             />
           </div>
 
           <h1
             className="
-          text-lg
-          font-bold
-          text-slate-800
-          transition
-          duration-300
-          group-hover:text-orange-500
-          "
+              text-lg
+              font-bold
+              text-slate-800
+              transition
+              duration-300
+              group-hover:text-orange-500
+            "
           >
             Campus
             <span className="text-orange-500"> Lost</span> & Found
@@ -111,14 +112,7 @@ function Navbar({ onLoginClick, onReportClick }) {
 
         {/* Navigation */}
 
-        <div
-          className="
-        hidden
-        items-center
-        gap-3
-        md:flex
-        "
-        >
+        <div className="hidden items-center gap-3 md:flex">
           <NavLink to="/" className={linkStyle}>
             Home
           </NavLink>
@@ -132,65 +126,105 @@ function Navbar({ onLoginClick, onReportClick }) {
           </NavLink>
         </div>
 
-        {/* Actions */}
+        {/* Right Actions */}
 
-        <div
-          className="
-        flex
-        items-center
-        gap-3
-        "
-        >
+        <div className="flex items-center gap-3">
+          {loggedIn && (
+            <div className="hidden lg:flex flex-col text-right">
+              <span className="text-xs text-slate-500">
+                Welcome back,
+              </span>
+
+              <span className="font-semibold text-slate-800">
+                {user?.username}
+              </span>
+            </div>
+          )}
+
           <button
-            onClick={onReportClick}
+            onClick={() => {
+              if (!loggedIn) {
+                onLoginClick();
+              } else {
+                onReportClick();
+              }
+            }}
             className="
-            flex
-            items-center
-            gap-2
-            rounded-xl
-            bg-orange-500
-            px-4
-            py-2.5
-            text-sm
-            font-semibold
-            text-white
-            shadow-sm
-            transition-all
-            hover:bg-orange-600
-            hover:shadow-lg
-            active:scale-95
+              flex
+              items-center
+              gap-2
+              rounded-xl
+              bg-orange-500
+              px-4
+              py-2.5
+              text-sm
+              font-semibold
+              text-white
+              shadow-sm
+              transition-all
+              hover:bg-orange-600
+              hover:shadow-lg
+              active:scale-95
             "
           >
             <Plus size={18} />
             Report Item
           </button>
 
-          <button
-            onClick={onLoginClick}
-            className="
-            flex
-            items-center
-            gap-2
-            rounded-xl
-            border
-            border-orange-300
-            bg-white/40
-            px-4
-            py-2.5
-            text-sm
-            font-semibold
-            text-orange-500
-            backdrop-blur-md
-            transition-all
-            hover:bg-orange-500
-            hover:text-white
-            hover:shadow-lg
-            active:scale-95
-            "
-          >
-            <LogIn size={18} />
-            Sign In
-          </button>
+          {!loggedIn ? (
+            <button
+              onClick={onLoginClick}
+              className="
+                flex
+                items-center
+                gap-2
+                rounded-xl
+                border
+                border-orange-300
+                bg-white/40
+                px-4
+                py-2.5
+                text-sm
+                font-semibold
+                text-orange-500
+                backdrop-blur-md
+                transition-all
+                hover:bg-orange-500
+                hover:text-white
+                hover:shadow-lg
+                active:scale-95
+              "
+            >
+              <LogIn size={18} />
+              Sign In
+            </button>
+          ) : (
+            <NavLink
+              to="/dashboard"
+              className="
+                flex
+                items-center
+                gap-2
+                rounded-xl
+                border
+                border-orange-300
+                bg-white
+                px-4
+                py-2.5
+                text-sm
+                font-semibold
+                text-orange-500
+                transition-all
+                hover:bg-orange-500
+                hover:text-white
+                hover:shadow-lg
+                active:scale-95
+              "
+            >
+              <LayoutDashboard size={18} />
+              Dashboard
+            </NavLink>
+          )}
         </div>
       </div>
     </nav>
