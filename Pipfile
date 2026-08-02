@@ -12,6 +12,7 @@ flask-bcrypt = "*"
 flask-jwt-extended = "*"
 flask-migrate = "*"
 flask-cors = "*"
+gunicorn = "*"
 
 [dev-packages]
 
