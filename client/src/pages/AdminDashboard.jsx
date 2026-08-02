@@ -3,237 +3,322 @@ import {
   Users,
   Package,
   ClipboardCheck,
-  FileText,
   Tags,
   LogOut,
   CheckCircle,
   Clock,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { useState } from 'react';
-
-import UsersPage from './admin/Users';
-import ItemsPage from './admin/Items';
-import ClaimsPage from './admin/Claims';
-import ReportsPage from './admin/Reports';
-import CategoriesPage from './admin/Categories';
-import { useAuth } from "../context/AuthContext";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import UsersPage from "./admin/Users";
+import ItemsPage from "./admin/Items";
+import ClaimsPage from "./admin/Claims";
+import CategoriesPage from "./admin/Categories";
+
+import { useAuth } from "../context/AuthContext";
+import api from "../services/api";
 
 function AdminDashboard() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+
+  const { logout, user } = useAuth();
 
   const [activePage, setActivePage] = useState("Dashboard");
 
   function handleLogout() {
     logout();
-    navigate("/", { replace: true });
+
+    navigate("/", {
+      replace: true,
+    });
   }
 
   const renderPage = () => {
     switch (activePage) {
-      case 'Users':
+      case "Users":
         return <UsersPage />;
 
-      case 'Items':
+      case "Items":
         return <ItemsPage />;
 
-      case 'Claims':
+      case "Claims":
         return <ClaimsPage />;
 
-      case 'Reports':
-        return <ReportsPage />;
-
-      case 'Categories':
+      case "Categories":
         return <CategoriesPage />;
 
       default:
-        return <DashboardHome />;
+        return <DashboardHome user={user} />;
     }
   };
+
   return (
-    <section className="min-h-screen bg-slate-50 flex">
+    <section className="flex min-h-screen bg-slate-50">
       {/* Sidebar */}
 
-      <aside className="w-64 bg-white border-r border-slate-200 p-6 hidden md:block">
+      <aside className="hidden w-64 border-r border-slate-200 bg-white p-6 md:block">
         <nav className="space-y-2">
           <AdminNav
             icon={<LayoutDashboard size={20} />}
             text="Dashboard"
-            active={activePage === 'Dashboard'}
-            onClick={() => setActivePage('Dashboard')}
+            active={activePage === "Dashboard"}
+            onClick={() => setActivePage("Dashboard")}
           />
 
           <AdminNav
             icon={<Users size={20} />}
             text="Users"
-            active={activePage === 'Users'}
-            onClick={() => setActivePage('Users')}
+            active={activePage === "Users"}
+            onClick={() => setActivePage("Users")}
           />
 
           <AdminNav
             icon={<Package size={20} />}
             text="Items"
-            active={activePage === 'Items'}
-            onClick={() => setActivePage('Items')}
+            active={activePage === "Items"}
+            onClick={() => setActivePage("Items")}
           />
 
           <AdminNav
             icon={<ClipboardCheck size={20} />}
             text="Claims"
-            active={activePage === 'Claims'}
-            onClick={() => setActivePage('Claims')}
-          />
-
-          <AdminNav
-            icon={<FileText size={20} />}
-            text="Reports"
-            active={activePage === 'Reports'}
-            onClick={() => setActivePage('Reports')}
+            active={activePage === "Claims"}
+            onClick={() => setActivePage("Claims")}
           />
 
           <AdminNav
             icon={<Tags size={20} />}
             text="Categories"
-            active={activePage === 'Categories'}
-            onClick={() => setActivePage('Categories')}
+            active={activePage === "Categories"}
+            onClick={() => setActivePage("Categories")}
           />
         </nav>
-        <button
-  onClick={handleLogout}
-  className="
-    mt-6
-    flex
-    w-full
-    items-center
-    gap-3
-    rounded-xl
-    border
-    border-red-200
-    bg-red-50
-    px-4
-    py-3
-    font-medium
-    text-red-600
-    transition-all
-    duration-200
-    hover:bg-red-600
-    hover:text-white
-    hover:border-red-600
-    active:scale-95
-  "
->
-  <LogOut size={20} />
-  Logout
-</button>
-      </aside>
 
-      {/* Main Content */}
+        <button
+          onClick={handleLogout}
+          className="mt-6 flex w-full items-center gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-medium text-red-600 transition hover:border-red-600 hover:bg-red-600 hover:text-white"
+        >
+          <LogOut size={20} />
+          Logout
+        </button>
+      </aside>
 
       <main className="flex-1">{renderPage()}</main>
     </section>
   );
 }
 
-function DashboardHome() {
-  const stats = [
+function DashboardHome({ user }) {
+  const [stats, setStats] = useState({
+    users: 0,
+    items: 0,
+    claims: 0,
+    pendingClaims: 0,
+  });
+
+  const [recentItems, setRecentItems] = useState([]);
+  const [recentClaims, setRecentClaims] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadStats() {
+      try {
+        const [users, items, claims] = await Promise.all([
+          api.get("/users"),
+          api.get("/items"),
+          api.get("/claims"),
+        ]);
+
+        setStats({
+          users: users.length,
+          items: items.length,
+          claims: claims.length,
+          pendingClaims: claims.filter(
+            (claim) => claim.status === "Pending"
+          ).length,
+        });
+
+        setRecentItems(items.slice(0, 5));
+        setRecentClaims(claims.slice(0, 5));
+      } catch (err) {
+        console.log(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadStats();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-lg font-semibold text-slate-600">
+          Loading dashboard...
+        </p>
+      </div>
+    );
+  }
+
+  const cards = [
     {
-      title: 'Total Users',
-      count: '1,250',
+      title: "Total Users",
+      value: stats.users,
       icon: <Users size={22} />,
-      color: 'bg-blue-100 text-blue-500',
+      color: "bg-blue-100 text-blue-500",
     },
-
     {
-      title: 'Total Items',
-      count: '340',
+      title: "Total Items",
+      value: stats.items,
       icon: <Package size={22} />,
-      color: 'bg-orange-100 text-orange-500',
+      color: "bg-orange-100 text-orange-500",
     },
-
     {
-      title: 'Pending Claims',
-      count: '28',
+      title: "Pending Claims",
+      value: stats.pendingClaims,
       icon: <Clock size={22} />,
-      color: 'bg-yellow-100 text-yellow-500',
+      color: "bg-yellow-100 text-yellow-500",
     },
-
     {
-      title: 'Resolved Cases',
-      count: '210',
+      title: "Resolved Claims",
+      value: stats.claims - stats.pendingClaims,
       icon: <CheckCircle size={22} />,
-      color: 'bg-green-100 text-green-500',
+      color: "bg-green-100 text-green-500",
     },
   ];
 
   return (
     <div className="p-6 md:p-10">
-      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-slate-800">
+          Welcome back, {user?.username || "Admin"} 👋
+        </h1>
 
-      <div className="flex justify-between items-start">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-800">Welcome back, Admin</h1>
-
-          <p className="mt-2 text-slate-500">Manage campus lost and found activities.</p>
-        </div>
+        <p className="mt-2 text-slate-500">
+          Manage campus lost and found activities.
+        </p>
       </div>
 
-      {/* Stats */}
-
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
-        {stats.map((item) => (
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {cards.map((card) => (
           <div
-            key={item.title}
-            className="
-            bg-white
-            rounded-2xl
-            p-5
-            shadow-sm
-            hover:shadow-md
-            transition
-            "
+            key={card.title}
+            className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
           >
             <div
-              className={`
-              h-11 w-11
-              rounded-xl
-              flex items-center justify-center
-              ${item.color}
-              `}
+              className={`flex h-11 w-11 items-center justify-center rounded-xl ${card.color}`}
             >
-              {item.icon}
+              {card.icon}
             </div>
 
-            <h2 className="mt-4 text-3xl font-bold text-slate-800">{item.count}</h2>
+            <h2 className="mt-4 text-3xl font-bold text-slate-800">
+              {card.value}
+            </h2>
 
-            <p className="text-slate-500">{item.title}</p>
+            <p className="text-slate-500">{card.title}</p>
           </div>
         ))}
       </div>
+            <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        {/* Recent Items */}
 
-      {/* Activity */}
+        <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-slate-800">
+              Recent Items
+            </h2>
 
-      <div className="grid lg:grid-cols-2 gap-6 mt-8">
-        <div className="bg-white rounded-2xl p-6 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-800">Recent Items</h2>
+            <span className="text-sm text-slate-500">
+              {recentItems.length} items
+            </span>
+          </div>
 
           <div className="mt-5 space-y-4">
-            <ActivityItem title="HP Laptop" status="Pending Review" />
+            {recentItems.length === 0 ? (
+              <p className="text-slate-500">
+                No items found.
+              </p>
+            ) : (
+              recentItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center justify-between border-b border-slate-100 pb-4"
+                >
+                  <div>
+                    <h3 className="font-semibold text-slate-800">
+                      {item.title}
+                    </h3>
 
-            <ActivityItem title="Student ID Card" status="Approved" />
+                    <p className="text-sm text-slate-500">
+                      {item.item_type} • {item.location}
+                    </p>
+                  </div>
 
-            <ActivityItem title="Backpack" status="Reported" />
+                  <span
+                    className={`rounded-full px-3 py-1 text-sm font-medium ${
+                      item.status === "Claimed"
+                        ? "bg-green-100 text-green-600"
+                        : "bg-orange-100 text-orange-600"
+                    }`}
+                  >
+                    {item.status}
+                  </span>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-800">Pending Claims</h2>
+        {/* Recent Claims */}
+
+        <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-slate-800">
+              Recent Claims
+            </h2>
+
+            <span className="text-sm text-slate-500">
+              {recentClaims.length} claims
+            </span>
+          </div>
 
           <div className="mt-5 space-y-4">
-            <ClaimItem item="HP Laptop" user="John Kamau" />
+            {recentClaims.length === 0 ? (
+              <p className="text-slate-500">
+                No claims found.
+              </p>
+            ) : (
+              recentClaims.map((claim) => (
+                <div
+                  key={claim.id}
+                  className="flex items-center justify-between border-b border-slate-100 pb-4"
+                >
+                  <div>
+                    <h3 className="font-semibold text-slate-800">
+                      Claim #{claim.id}
+                    </h3>
 
-            <ClaimItem item="Backpack" user="Mary Wanjiku" />
+                    <p className="text-sm text-slate-500">
+                      Item #{claim.item}
+                    </p>
+                  </div>
+
+                  <span
+                    className={`rounded-full px-3 py-1 text-sm font-medium ${
+                      claim.status === "Approved"
+                        ? "bg-green-100 text-green-600"
+                        : claim.status === "Rejected"
+                        ? "bg-red-100 text-red-600"
+                        : "bg-yellow-100 text-yellow-600"
+                    }`}
+                  >
+                    {claim.status}
+                  </span>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -241,55 +326,25 @@ function DashboardHome() {
   );
 }
 
-function AdminNav({ icon, text, active, onClick }) {
+function AdminNav({
+  icon,
+  text,
+  active,
+  onClick,
+}) {
   return (
     <button
       onClick={onClick}
-      className={`
-      w-full
-      flex items-center gap-3
-      px-4 py-3
-      rounded-xl
-      transition
-      ${
+      className={`w-full flex items-center gap-3 rounded-xl px-4 py-3 transition ${
         active
-          ? 'bg-orange-500 text-white'
-          : 'text-slate-500 hover:bg-orange-50 hover:text-orange-500'
-      }
-      `}
+          ? "bg-orange-500 text-white"
+          : "text-slate-500 hover:bg-orange-50 hover:text-orange-500"
+      }`}
     >
       {icon}
 
-      {text}
+      <span>{text}</span>
     </button>
-  );
-}
-
-function ActivityItem({ title, status }) {
-  return (
-    <div className="flex justify-between border-b border-slate-100 pb-3">
-      <div>
-        <h3 className="font-semibold text-slate-800">{title}</h3>
-
-        <p className="text-sm text-slate-500">Recently submitted</p>
-      </div>
-
-      <span className="text-sm text-orange-500">{status}</span>
-    </div>
-  );
-}
-
-function ClaimItem({ item, user }) {
-  return (
-    <div className="flex justify-between border-b border-slate-100 pb-3">
-      <div>
-        <h3 className="font-semibold text-slate-800">{item}</h3>
-
-        <p className="text-sm text-slate-500">Claimed by {user}</p>
-      </div>
-
-      <button className="text-orange-500">Review</button>
-    </div>
   );
 }
 

@@ -1,12 +1,15 @@
 from flask import jsonify
-from extensions import db
 from models.user import User
 from models.item import Item
 from models.claim import Claim
-from schemas.user_schema import user_schema
+from schemas.user_schema import user_schema, users_schema
 from schemas.item_schema import items_schema
 from schemas.claim_schema import claims_schema
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import (
+    jwt_required,
+    get_jwt_identity,
+    get_jwt
+)
 
 
 # Get current logged-in user profile
@@ -23,6 +26,23 @@ def get_profile():
 
     return jsonify(
         user_schema.dump(user)
+    ), 200
+
+
+# Admin: Get all users
+@jwt_required()
+def get_users():
+    claims = get_jwt()
+
+    if claims.get("role") != "admin":
+        return jsonify({
+            "message": "Admin access required"
+        }), 403
+
+    users = User.query.all()
+
+    return jsonify(
+        users_schema.dump(users)
     ), 200
 
 

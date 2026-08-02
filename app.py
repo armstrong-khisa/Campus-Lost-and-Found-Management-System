@@ -52,6 +52,9 @@ def login():
     return auth_controller.login()
 
 # User Routes
+@app.route("/users", methods=["GET"])
+def get_users():
+    return user_controller.get_users()
 
 @app.route("/users/me", methods=["GET"])
 def get_profile():
