@@ -17,9 +17,19 @@ import ItemsPage from './admin/Items';
 import ClaimsPage from './admin/Claims';
 import ReportsPage from './admin/Reports';
 import CategoriesPage from './admin/Categories';
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
-  const [activePage, setActivePage] = useState('Dashboard');
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const [activePage, setActivePage] = useState("Dashboard");
+
+  function handleLogout() {
+    logout();
+    navigate("/", { replace: true });
+  }
 
   const renderPage = () => {
     switch (activePage) {
@@ -42,7 +52,6 @@ function AdminDashboard() {
         return <DashboardHome />;
     }
   };
-
   return (
     <section className="min-h-screen bg-slate-50 flex">
       {/* Sidebar */}
@@ -91,19 +100,33 @@ function AdminDashboard() {
             onClick={() => setActivePage('Categories')}
           />
         </nav>
-
         <button
-          className="
-          mt-10 flex items-center gap-3
-          px-4 py-3 rounded-xl
-          text-red-500
-          hover:bg-red-50
-          transition
-          "
-        >
-          <LogOut size={20} />
-          Logout
-        </button>
+  onClick={handleLogout}
+  className="
+    mt-6
+    flex
+    w-full
+    items-center
+    gap-3
+    rounded-xl
+    border
+    border-red-200
+    bg-red-50
+    px-4
+    py-3
+    font-medium
+    text-red-600
+    transition-all
+    duration-200
+    hover:bg-red-600
+    hover:text-white
+    hover:border-red-600
+    active:scale-95
+  "
+>
+  <LogOut size={20} />
+  Logout
+</button>
       </aside>
 
       {/* Main Content */}
@@ -154,21 +177,6 @@ function DashboardHome() {
 
           <p className="mt-2 text-slate-500">Manage campus lost and found activities.</p>
         </div>
-
-        <button
-          className="
-          flex items-center gap-2
-          rounded-xl
-          border border-red-200
-          px-5 py-3
-          text-red-500
-          hover:bg-red-50
-          transition
-          "
-        >
-          <LogOut size={18} />
-          Logout
-        </button>
       </div>
 
       {/* Stats */}

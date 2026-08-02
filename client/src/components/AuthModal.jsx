@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { X, Mail, Lock, User } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function AuthModal({ isOpen, onClose }) {
+  const navigate = useNavigate(); 
+
   const { login, register } = useAuth();
   const [isRegister, setIsRegister] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -69,9 +72,16 @@ function AuthModal({ isOpen, onClose }) {
           return;
         }
 
-        await login(form.email, form.password);
-        onClose();
-        resetForm();
+       const data = await login(form.email, form.password);
+
+onClose();
+resetForm();
+
+if (data.user.role === "admin") {
+  navigate("/admin");
+} else {
+  navigate("/dashboard");
+}
       }
     } catch (err) {
       setError(err?.message || "Something went wrong. Please try again.");

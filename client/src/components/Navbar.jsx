@@ -4,6 +4,10 @@ import { useAuth } from "../context/AuthContext";
 
 function Navbar({ onLoginClick, onReportClick }) {
   const { user, isLoggedIn } = useAuth();
+  const dashboardLink =
+  user?.role === "admin"
+    ? "/admin"
+    : "/dashboard";
 
   const loggedIn = isLoggedIn;
   const linkStyle = ({ isActive }) =>
@@ -200,7 +204,7 @@ function Navbar({ onLoginClick, onReportClick }) {
             </button>
           ) : (
             <NavLink
-              to="/dashboard"
+  to={dashboardLink}
               className="
                 flex
                 items-center
