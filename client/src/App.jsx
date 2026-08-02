@@ -13,7 +13,9 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AuthModal from "./components/AuthModal";
 import ReportItemModal from "./components/ReportItemModal";
+
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   const [showAuth, setShowAuth] = useState(false);
@@ -27,6 +29,7 @@ function App() {
       />
 
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
 
         <Route path="/about" element={<About />} />
@@ -45,16 +48,17 @@ function App() {
           }
         />
 
-        {/* Protected Admin Dashboard (temporary) */}
+        {/* Protected Admin Dashboard */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <AdminDashboard />
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
 
+        {/* 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
 

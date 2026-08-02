@@ -24,18 +24,33 @@ export function logout() {
   localStorage.removeItem("user");
 }
 
-// Get logged in user
+// Get logged-in user from localStorage
 export function getCurrentUser() {
   const user = localStorage.getItem("user");
-
   return user ? JSON.parse(user) : null;
 }
+
 // Get JWT token
 export function getToken() {
   return localStorage.getItem("token");
 }
 
-// Check if user is logged in
+// Check login status
 export function isLoggedIn() {
-  return !!localStorage.getItem("token");
+  return !!getToken();
+}
+
+// Fetch latest user from backend
+export async function refreshCurrentUser() {
+  try {
+    const user = await api.get("/users/me");
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    return user;
+  } catch (err) {
+    // Token is invalid or expired
+    logout();
+    throw err;
+  }
 }
