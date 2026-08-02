@@ -1,17 +1,19 @@
-import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
-import Home from './pages/Home';
-import Items from './pages/Items';
-import ItemDetails from './pages/ItemDetails';
-import Dashboard from './pages/Dashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import NotFound from './pages/NotFound';
-import Navbar from './components/Navbar';
-import About from './pages/About';
-import AuthModal from './components/AuthModal';
-import ReportItemModal from './components/ReportItemModal';
-import Footer from './components/Footer';
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Items from "./pages/Items";
+import ItemDetails from "./pages/ItemDetails";
+import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard";
+import NotFound from "./pages/NotFound";
+
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import AuthModal from "./components/AuthModal";
+import ReportItemModal from "./components/ReportItemModal";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [showAuth, setShowAuth] = useState(false);
@@ -19,7 +21,10 @@ function App() {
 
   return (
     <>
-      <Navbar onLoginClick={() => setShowAuth(true)} onReportClick={() => setShowReport(true)} />
+      <Navbar
+        onLoginClick={() => setShowAuth(true)}
+        onReportClick={() => setShowReport(true)}
+      />
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -30,16 +35,38 @@ function App() {
 
         <Route path="/items/:id" element={<ItemDetails />} />
 
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* Protected User Dashboard */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
-        <Route path="/admin" element={<AdminDashboard />} />
+        {/* Protected Admin Dashboard (temporary) */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
+      <AuthModal
+        isOpen={showAuth}
+        onClose={() => setShowAuth(false)}
+      />
 
-      <ReportItemModal isOpen={showReport} onClose={() => setShowReport(false)} />
+      <ReportItemModal
+        isOpen={showReport}
+        onClose={() => setShowReport(false)}
+      />
 
       <Footer />
     </>
