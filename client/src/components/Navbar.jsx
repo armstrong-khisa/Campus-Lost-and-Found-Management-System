@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { Plus, LogIn, LayoutDashboard } from "lucide-react";
-import { getCurrentUser, isLoggedIn } from "../services/auth";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar({ onLoginClick, onReportClick }) {
-  const user = getCurrentUser();
-  const loggedIn = isLoggedIn();
+  const { user, isLoggedIn } = useAuth();
 
+  const loggedIn = isLoggedIn;
   const linkStyle = ({ isActive }) =>
     `
     rounded-xl

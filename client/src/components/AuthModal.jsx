@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { X, Mail, Lock, User } from "lucide-react";
-import { login, register } from "../services/auth";
+import { useAuth } from "../context/AuthContext";
 
 function AuthModal({ isOpen, onClose }) {
+  const { login, register } = useAuth();
   const [isRegister, setIsRegister] = useState(false);
   const [loading, setLoading] = useState(false);
 
