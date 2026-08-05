@@ -68,18 +68,6 @@ def login():
 
 
 # User Routes
-@app.get("/seed")
-def seed():
-    from seed import seed_database
-
-    with app.app_context():
-        seed_database()
-
-    return {
-        "message": "Database seeded"
-    }
-
-
 @app.route("/users", methods=["GET"])
 def get_users():
     return user_controller.get_users()

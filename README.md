@@ -73,28 +73,51 @@ The app supports:
 
 ### Authentication
 
-- user registration
+- user registration with username, email, and password
 - login with JWT-based authentication
-- protected routes for authenticated users
+- role-based access for regular users and admins
+- protected routes for authenticated users (`/dashboard`) and admins (`/admin`)
 
 ### Item Management
 
 - report lost items
 - report found items
-- add descriptions, location, and category
-- track status such as Pending, Claimed, and Returned
+- add descriptions, location, image URL, and category
+- track statuses such as Available, Claimed, and Archived
+- admins can edit and delete any item
+
+### Search & Filtering
+
+- keyword search across titles and descriptions
+- filter by category, location, and time period (24 hours / 7 days / 30 days)
+- real-time client-side filtering with results count
 
 ### Claims
 
-- submit ownership claims
-- review claim status
-- manage claim history
+- submit ownership claims with proof message
+- review claim status (Pending / Approved / Rejected)
+- admins can approve or reject pending claims
+- cannot claim your own reported item
+
+### User Dashboard
+
+- personal statistics (lost, found, claims, recovered)
+- view recent reports and claim history
+- track claim status over time
+
+### Admin Dashboard
+
+- overview cards (total users, items, pending claims, resolved claims)
+- manage users, items, claims, and categories
+- approve/reject claims and delete items/categories
+- search within each management table
 
 ### User Experience
 
-- responsive frontend interface
-- search and filtering support
-- organized listing of reports
+- modern, responsive interface built with Tailwind CSS
+- glassmorphism navbar with sticky positioning
+- modal-based login/register and item reporting
+- dedicated 404 page
 
 ---
 
@@ -102,9 +125,11 @@ The app supports:
 
 ### Frontend
 
-- React
-- Vite
-- React Router
+- React 19
+- Vite 8
+- Tailwind CSS 4
+- React Router 7
+- lucide-react (icons)
 - JavaScript / JSX
 
 ### Backend
@@ -119,8 +144,8 @@ The app supports:
 
 ### Database
 
-- SQLite for local development
-- PostgreSQL can be used for production deployment
+- PostgreSQL (production, configured in `app.py`)
+- SQLite can be used for local development
 
 ### Tools
 
@@ -134,19 +159,19 @@ The app supports:
 
 ```text
 Campus lost and found/
-├── app.py
-├── extensions.py
+├── app.py                      # Flask application entry point (port 3000)
+├── extensions.py               # Flask extension instances
 ├── Pipfile
 ├── README.md
 ├── seed.py
 ├── .gitignore
 ├── controllers/
 │   ├── __init__.py
-│   ├── auth_controller.py
-│   ├── category_controller.py
-│   ├── claim_controller.py
-│   ├── item_controller.py
-│   └── user_controller.py
+│   ├── auth_controller.py      # register / login
+│   ├── category_controller.py  # category CRUD
+│   ├── claim_controller.py     # claim submission & review
+│   ├── item_controller.py      # item CRUD
+│   └── user_controller.py      # profile, users, my items/claims
 ├── models/
 │   ├── __init__.py
 │   ├── user.py
@@ -168,6 +193,7 @@ Campus lost and found/
 ├── instance/
 └── client/
     ├── .gitignore
+    ├── .prettierrc
     ├── eslint.config.js
     ├── index.html
     ├── package.json
@@ -175,11 +201,27 @@ Campus lost and found/
     ├── vite.config.js
     ├── README.md
     ├── public/
+    │   └── logo.png
     └── src/
         ├── main.jsx
-        ├── App.jsx
+        ├── App.jsx             # routes + global layout
         ├── index.css
-        └── assets/
+        ├── assets/
+        ├── components/         # Navbar, Footer, modals, ItemCard, route guards
+        ├── context/
+        │   └── AuthContext.jsx # global auth state
+        ├── services/
+        │   ├── api.js          # JWT fetch wrapper
+        │   └── auth.js         # auth helpers (login/logout/token)
+        └── pages/
+            ├── Home.jsx
+            ├── About.jsx
+            ├── Items.jsx       # browse + search/filter
+            ├── ItemDetails.jsx # detail + claim
+            ├── Dashboard.jsx   # user dashboard
+            ├── AdminDashboard.jsx
+            ├── NotFound.jsx
+            └── admin/          # Users, Items, Claims, Categories
 ```
 
 ---
@@ -271,24 +313,57 @@ Authorization: Bearer <access_token>
 
 ## 📡 API Overview
 
-The backend exposes endpoints for authentication, users, items, categories, and claims.
+The backend exposes endpoints for authentication, users, items, categories, and claims. All endpoints are served from the Flask app. Protected routes require a `Bearer` token in the `Authorization` header.
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | /register | register a new user |
-| POST | /login | authenticate a user and return a token |
-| GET | /items | list all items |
-| POST | /items | create a new item report |
-| GET | /items/<id> | retrieve one item |
-| PUT | /items/<id> | update an item |
-| DELETE | /items/<id> | delete an item |
-| GET | /categories | list categories |
-| POST | /claims | submit a claim |
+### Authentication
+
+| Method | Endpoint | Description | Access |
+| --- | --- | --- | --- |
+| POST | /auth/register | register a new user | Public |
+| POST | /auth/login | authenticate and return a JWT token | Public |
+
+### Users
+
+| Method | Endpoint | Description | Access |
+| --- | --- | --- | --- |
+| GET | /users/me | get current logged-in user profile | User |
+| GET | /users/me/items | get items reported by current user | User |
+| GET | /users/me/claims | get claims submitted by current user | User |
+| GET | /users | list all users | Admin |
+
+### Items
+
+| Method | Endpoint | Description | Access |
+| --- | --- | --- | --- |
+| GET | /items | list all items | Public |
+| GET | /items/<id> | get one item | Public |
+| POST | /items | create a new item report | User |
+| PUT | /items/<id> | update an item (own item) | User |
+| DELETE | /items/<id> | delete an item (own item) | User |
+
+### Claims
+
+| Method | Endpoint | Description | Access |
+| --- | --- | --- | --- |
+| POST | /claims | submit a claim for an item | User |
+| GET | /claims/my | get the current user's claims | User |
+| GET | /claims | get all claims | Admin |
+| PUT | /claims/<id>/approve | approve a pending claim | Admin |
+| PUT | /claims/<id>/reject | reject a pending claim | Admin |
+
+### Categories
+
+| Method | Endpoint | Description | Access |
+| --- | --- | --- | --- |
+| GET | /categories | list all categories | Public |
+| GET | /categories/<id> | get one category | Public |
+| POST | /categories | create a category | Admin |
+| DELETE | /categories/<id> | delete a category | Admin |
 
 Example request:
 
 ```bash
-curl -X POST http://127.0.0.1:5000/register \
+curl -X POST http://127.0.0.1:3000/auth/register \
   -H "Content-Type: application/json" \
   -d '{"username":"student","email":"student@example.com","password":"secure123"}'
 ```
@@ -318,8 +393,10 @@ pipenv install
 
 ### 4. Run the backend
 
+The Flask API runs on port 3000:
+
 ```bash
-python main.py
+python app.py
 ```
 
 ### 5. Run the frontend
@@ -329,6 +406,8 @@ cd client
 npm install
 npm run dev
 ```
+
+The Vite dev server will start (typically at `http://localhost:5173`) and proxy API calls to the backend. The default frontend API base URL points to the deployed service; update `client/src/services/api.js` if you want to target a local backend.
 
 ---
 
