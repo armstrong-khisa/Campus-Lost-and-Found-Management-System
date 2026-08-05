@@ -103,81 +103,74 @@ with app.app_context():
 
     print("Creating items...")
 
-
     laptop = Item(
-        title="HP EliteBook",
-        description="Black HP laptop with charger.",
-        item_type="Lost",
-        location="Library",
-        image_url="https://example.com/laptop.jpg",
-        user_id=john.id,
-        category_id=electronics.id
-    )
-
+    title="HP EliteBook",
+    description="Black HP laptop with charger.",
+    item_type="Lost",
+    location="Library",
+    image_url="https://images.unsplash.com/photo-1663354027456-ce6a7e07d212?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8aHAlMjBsYXB0b3B8ZW58MHx8MHx8fDA%3D",
+    user_id=john.id,
+    category_id=electronics.id
+)
 
     id_card = Item(
-        title="Student ID",
-        description="Blue student ID card.",
-        item_type="Found",
-        location="Main Gate",
-        image_url=None,
-        user_id=mary.id,
-        category_id=documents.id
-    )
-
+    title="Student ID",
+    description="Blue student ID card.",
+    item_type="Found",
+    location="Main Gate",
+    image_url="https://images.unsplash.com/photo-1623795457671-600b1223c2db?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHN0dWRlbnQlMjBpZHxlbnwwfHwwfHx8MA%3D%3D",
+    user_id=mary.id,
+    category_id=documents.id
+)
 
     hoodie = Item(
-        title="Grey Hoodie",
-        description="Grey Nike hoodie.",
-        item_type="Lost",
-        location="Cafeteria",
-        image_url=None,
-        user_id=john.id,
-        category_id=clothing.id
-    )
-
+    title="Grey Hoodie",
+    description="Grey Nike hoodie.",
+    item_type="Lost",
+    location="Cafeteria",
+    image_url="https://plus.unsplash.com/premium_photo-1673356301962-243a8c06f713?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Z3JleSUyMGhvb2RpZXxlbnwwfHwwfHx8MA%3D%3D",
+    user_id=john.id,
+    category_id=clothing.id
+)
 
     book = Item(
-        title="Python Programming Book",
-        description="Python textbook with handwritten notes.",
-        item_type="Lost",
-        location="Computer Lab",
-        image_url=None,
-        user_id=alex.id,
-        category_id=books.id
-    )
-
+    title="Python Programming Book",
+    description="Python textbook with handwritten notes.",
+    item_type="Lost",
+    location="Computer Lab",
+    image_url="https://images.unsplash.com/photo-1565229284535-2cbbe3049123?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Ym9vayUyMGNvZGluZ3xlbnwwfHwwfHx8MA%3D%3D",
+    user_id=alex.id,
+    category_id=books.id
+)
 
     headphones = Item(
-        title="Wireless Headphones",
-        description="Black Bluetooth headphones.",
-        item_type="Found",
-        location="Lecture Hall",
-        image_url=None,
-        user_id=kevin.id,
-        category_id=electronics.id
-    )
-
+    title="Wireless Headphones",
+    description="Black Bluetooth headphones.",
+    item_type="Found",
+    location="Lecture Hall",
+    image_url="https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGhlYWRwaG9uZXN8ZW58MHx8MHx8fDA%3D",
+    user_id=kevin.id,
+    category_id=electronics.id
+)
 
     wallet = Item(
-        title="Brown Wallet",
-        description="Leather wallet with student cards.",
-        item_type="Found",
-        location="Parking Area",
-        image_url=None,
-        user_id=sarah.id,
-        category_id=accessories.id
-    )
-
+    title="Brown Wallet",
+    description="Leather wallet with student cards.",
+    item_type="Found",
+    location="Parking Area",
+    image_url="https://images.unsplash.com/photo-1624538000860-24716b9050f2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHdhbGxldHxlbnwwfHwwfHx8MA%3D%3D",
+    user_id=sarah.id,
+    category_id=accessories.id
+)
 
     db.session.add_all([
-        laptop,
-        id_card,
-        hoodie,
-        book,
-        headphones,
-        wallet
-    ])
+    laptop,
+    id_card,
+    hoodie,
+    book,
+    headphones,
+    wallet
+])
 
     db.session.commit()
 
