@@ -47,7 +47,7 @@ function ClaimItemModal({ isOpen, onClose, item, onSuccess }) {
   }
 
   return (
-    <div
+<div
       className="
       fixed
       inset-0
@@ -57,12 +57,17 @@ function ClaimItemModal({ isOpen, onClose, item, onSuccess }) {
       justify-center
       bg-black/40
       backdrop-blur-sm
+      p-2
+      sm:p-6
     "
     >
-      <div
+<div
         className="
         relative
-        w-[450px]
+        w-full
+        max-w-[450px]
+        max-h-[95vh]
+        overflow-y-auto
         rounded-3xl
         bg-white
         p-6

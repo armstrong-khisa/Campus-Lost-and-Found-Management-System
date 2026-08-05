@@ -83,8 +83,8 @@ function ReportItemModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="relative w-[380px] overflow-hidden rounded-[30px] bg-white shadow-[0_20px_60px_rgba(0,0,0,.18)]">
+<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-2">
+      <div className="relative w-full max-w-[380px] max-h-[95vh] overflow-y-auto rounded-[30px] bg-white shadow-[0_20px_60px_rgba(0,0,0,.18)]">
         <div
           className="absolute inset-0 opacity-30"
           style={{

@@ -91,8 +91,8 @@ function AuthModal({ isOpen, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-[400px] overflow-hidden rounded-[30px] bg-white shadow-[0_20px_60px_rgba(0,0,0,.18)]">
+<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+      <div className="relative w-full max-w-[400px] max-h-[95vh] overflow-y-auto rounded-[30px] bg-white shadow-[0_20px_60px_rgba(0,0,0,.18)]">
         {/* Background Pattern */}
         <div
           className="absolute inset-0 opacity-30 pointer-events-none"

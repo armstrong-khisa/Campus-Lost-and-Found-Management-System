@@ -1,10 +1,13 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Plus, LogIn, LayoutDashboard } from 'lucide-react';
+import { Plus, LogIn, LayoutDashboard, Menu, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 function Navbar({ onLoginClick, onReportClick }) {
   const { user, isLoggedIn } = useAuth();
   const dashboardLink = user?.role === 'admin' ? '/admin' : '/dashboard';
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const loggedIn = isLoggedIn;
   const linkStyle = ({ isActive }) =>
@@ -93,14 +96,17 @@ function Navbar({ onLoginClick, onReportClick }) {
             <img src="/logo.png" alt="Campus Lost and Found" />
           </div>
 
-          <h1
+<h1
             className="
-              text-lg
+              hidden
+              text-base
               font-bold
               text-slate-800
               transition
               duration-300
               group-hover:text-orange-500
+              min-[420px]:block
+              min-[420px]:text-lg
             "
           >
             Campus
@@ -108,7 +114,7 @@ function Navbar({ onLoginClick, onReportClick }) {
           </h1>
         </NavLink>
 
-        {/* Navigation */}
+        {/* Navigation (desktop) */}
 
         <div className="hidden items-center gap-3 md:flex">
           <NavLink to="/" className={linkStyle}>
@@ -124,9 +130,9 @@ function Navbar({ onLoginClick, onReportClick }) {
           </NavLink>
         </div>
 
-        {/* Right Actions */}
+{/* Right Actions */}
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {loggedIn && (
             <div className="hidden lg:flex flex-col text-right">
               <span className="text-xs text-slate-500">Welcome back,</span>
@@ -162,7 +168,7 @@ function Navbar({ onLoginClick, onReportClick }) {
             "
           >
             <Plus size={18} />
-            Report Item
+            <span className="hidden min-[500px]:inline">Report Item</span>
           </button>
 
           {!loggedIn ? (
@@ -190,7 +196,7 @@ function Navbar({ onLoginClick, onReportClick }) {
               "
             >
               <LogIn size={18} />
-              Sign In
+              <span className="hidden min-[500px]:inline">Sign In</span>
             </button>
           ) : (
             <NavLink
@@ -216,12 +222,63 @@ function Navbar({ onLoginClick, onReportClick }) {
               "
             >
               <LayoutDashboard size={18} />
-              Dashboard
+              <span className="hidden min-[500px]:inline">Dashboard</span>
             </NavLink>
           )}
+
+          {/* Mobile hamburger toggle */}
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Toggle navigation menu"
+            className="
+              flex
+              items-center
+              justify-center
+              rounded-xl
+              p-2
+              text-slate-700
+              transition
+              hover:bg-slate-100
+              md:hidden
+            "
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="border-t border-slate-200 bg-white/95 px-6 py-4 backdrop-blur-xl md:hidden">
+          <div className="flex flex-col gap-2">
+            <MobileLink to="/" label="Home" onClick={() => setMenuOpen(false)} />
+            <MobileLink to="/about" label="About" onClick={() => setMenuOpen(false)} />
+            <MobileLink to="/items" label="Browse Items" onClick={() => setMenuOpen(false)} />
+            {loggedIn && (
+              <MobileLink to={dashboardLink} label="Dashboard" onClick={() => setMenuOpen(false)} />
+            )}
+          </div>
+        </div>
+      )}
     </nav>
+  );
+}
+
+function MobileLink({ to, label, onClick }) {
+  return (
+    <NavLink
+      to={to}
+      onClick={onClick}
+      className={({ isActive }) =>
+        `rounded-xl px-4 py-3 font-medium transition ${
+          isActive
+            ? 'bg-orange-500 text-white'
+            : 'text-slate-700 hover:bg-orange-50 hover:text-orange-500'
+        }`
+      }
+    >
+      {label}
+    </NavLink>
   );
 }
 
