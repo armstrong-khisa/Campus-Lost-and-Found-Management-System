@@ -6,12 +6,12 @@ import {
   Clock,
   CheckCircle,
   ClipboardCheck,
-} from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import api from "../services/api";
-import { useAuth } from "../context/AuthContext";
+import api from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -25,8 +25,8 @@ function Dashboard() {
   useEffect(() => {
     async function loadDashboard() {
       try {
-        const myItems = await api.get("/users/me/items");
-        const myClaims = await api.get("/users/me/claims");
+        const myItems = await api.get('/users/me/items');
+        const myClaims = await api.get('/users/me/claims');
 
         setItems(myItems);
         setClaims(myClaims);
@@ -42,32 +42,32 @@ function Dashboard() {
 
   function handleLogout() {
     logout();
-    navigate("/");
+    navigate('/');
   }
 
   const stats = [
     {
-      title: "Lost Items",
-      count: items.filter((i) => i.item_type === "Lost").length,
-      color: "bg-red-100 text-red-500",
+      title: 'Lost Items',
+      count: items.filter((i) => i.item_type === 'Lost').length,
+      color: 'bg-red-100 text-red-500',
       icon: <Package size={22} />,
     },
     {
-      title: "Found Items",
-      count: items.filter((i) => i.item_type === "Found").length,
-      color: "bg-green-100 text-green-500",
+      title: 'Found Items',
+      count: items.filter((i) => i.item_type === 'Found').length,
+      color: 'bg-green-100 text-green-500',
       icon: <CheckCircle size={22} />,
     },
     {
-      title: "My Claims",
+      title: 'My Claims',
       count: claims.length,
-      color: "bg-orange-100 text-orange-500",
+      color: 'bg-orange-100 text-orange-500',
       icon: <ClipboardCheck size={22} />,
     },
     {
-      title: "Recovered",
-      count: items.filter((i) => i.status === "Claimed").length,
-      color: "bg-blue-100 text-blue-500",
+      title: 'Recovered',
+      count: items.filter((i) => i.status === 'Claimed').length,
+      color: 'bg-blue-100 text-blue-500',
       icon: <CheckCircle size={22} />,
     },
   ];
@@ -75,9 +75,7 @@ function Dashboard() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-lg font-semibold text-slate-600">
-          Loading dashboard...
-        </p>
+        <p className="text-lg font-semibold text-slate-600">Loading dashboard...</p>
       </div>
     );
   }
@@ -88,21 +86,11 @@ function Dashboard() {
 
       <aside className="hidden w-64 border-r border-slate-200 bg-white p-6 md:block">
         <nav className="space-y-2">
-          <NavItem
-            icon={<LayoutDashboard size={20} />}
-            text="Dashboard"
-            active
-          />
+          <NavItem icon={<LayoutDashboard size={20} />} text="Dashboard" active />
 
-          <NavItem
-            icon={<Package size={20} />}
-            text="My Reports"
-          />
+          <NavItem icon={<Package size={20} />} text="My Reports" />
 
-          <NavItem
-            icon={<ClipboardCheck size={20} />}
-            text="My Claims"
-          />
+          <NavItem icon={<ClipboardCheck size={20} />} text="My Claims" />
         </nav>
       </aside>
 
@@ -113,13 +101,9 @@ function Dashboard() {
 
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800">
-              Welcome back, {user?.username} 👋
-            </h1>
+            <h1 className="text-3xl font-bold text-slate-800">Welcome back, {user?.username} 👋</h1>
 
-            <p className="mt-2 text-slate-500">
-              Track your reports and claims.
-            </p>
+            <p className="mt-2 text-slate-500">Track your reports and claims.</p>
           </div>
 
           <button
@@ -145,13 +129,9 @@ function Dashboard() {
                 {item.icon}
               </div>
 
-              <h3 className="mt-4 text-3xl font-bold text-slate-800">
-                {item.count}
-              </h3>
+              <h3 className="mt-4 text-3xl font-bold text-slate-800">{item.count}</h3>
 
-              <p className="text-slate-500">
-                {item.title}
-              </p>
+              <p className="text-slate-500">{item.title}</p>
             </div>
           ))}
         </div>
@@ -159,43 +139,32 @@ function Dashboard() {
         {/* Reports + Claims */}
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
-
           {/* Reports */}
 
           <div className="rounded-2xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-slate-800">
-                My Reports
-              </h2>
+              <h2 className="text-xl font-bold text-slate-800">My Reports</h2>
 
-              <span className="text-sm text-slate-500">
-                {items.length} reports
-              </span>
+              <span className="text-sm text-slate-500">{items.length} reports</span>
             </div>
 
             <div className="mt-5 space-y-4">
-
               {items.length === 0 ? (
-                <p className="text-slate-500">
-                  You haven't reported any items yet.
-                </p>
+                <p className="text-slate-500">You haven't reported any items yet.</p>
               ) : (
-                items.slice(0, 5).map((item) => (
-                  <ReportCard
-                    key={item.id}
-                    name={item.title}
-                    status={item.item_type}
-                    location={item.location}
-                    date={item.date_reported}
-                    color={
-                      item.item_type === "Lost"
-                        ? "text-red-500"
-                        : "text-green-500"
-                    }
-                  />
-                ))
+                items
+                  .slice(0, 5)
+                  .map((item) => (
+                    <ReportCard
+                      key={item.id}
+                      name={item.title}
+                      status={item.item_type}
+                      location={item.location}
+                      date={item.date_reported}
+                      color={item.item_type === 'Lost' ? 'text-red-500' : 'text-green-500'}
+                    />
+                  ))
               )}
-
             </div>
           </div>
 
@@ -203,33 +172,27 @@ function Dashboard() {
 
           <div className="rounded-2xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-slate-800">
-                My Claims
-              </h2>
+              <h2 className="text-xl font-bold text-slate-800">My Claims</h2>
 
-              <span className="text-sm text-slate-500">
-                {claims.length} claims
-              </span>
+              <span className="text-sm text-slate-500">{claims.length} claims</span>
             </div>
 
             <div className="mt-5 space-y-4">
-
-             {claims.length === 0 ? (
-  <p className="text-slate-500">
-    You haven't submitted any claims yet.
-  </p>
-) : (
-  claims.slice(0, 5).map((claim) => (
-    <ClaimCard
-      key={claim.id}
-      item={claim.item}
-      message={claim.message}
-      status={claim.status}
-      date={claim.claimed_at}
-    />
-  ))
-)}
-
+              {claims.length === 0 ? (
+                <p className="text-slate-500">You haven't submitted any claims yet.</p>
+              ) : (
+                claims
+                  .slice(0, 5)
+                  .map((claim) => (
+                    <ClaimCard
+                      key={claim.id}
+                      item={claim.item}
+                      message={claim.message}
+                      status={claim.status}
+                      date={claim.claimed_at}
+                    />
+                  ))
+              )}
             </div>
           </div>
         </div>
@@ -243,8 +206,8 @@ function NavItem({ icon, text, active }) {
     <div
       className={`flex cursor-pointer items-center gap-3 rounded-xl px-4 py-3 transition ${
         active
-          ? "bg-orange-500 text-white"
-          : "text-slate-500 hover:bg-orange-50 hover:text-orange-500"
+          ? 'bg-orange-500 text-white'
+          : 'text-slate-500 hover:bg-orange-50 hover:text-orange-500'
       }`}
     >
       {icon}
@@ -253,19 +216,11 @@ function NavItem({ icon, text, active }) {
   );
 }
 
-function ReportCard({
-  name,
-  status,
-  location,
-  date,
-  color,
-}) {
+function ReportCard({ name, status, location, date, color }) {
   return (
     <div className="flex items-center justify-between border-b border-slate-100 pb-4">
       <div>
-        <h3 className="font-semibold text-slate-800">
-          {name}
-        </h3>
+        <h3 className="font-semibold text-slate-800">{name}</h3>
 
         <p className="mt-1 flex items-center gap-2 text-sm text-slate-500">
           <MapPin size={14} />
@@ -278,34 +233,20 @@ function ReportCard({
         </p>
       </div>
 
-      <span className={`font-semibold ${color}`}>
-        {status}
-      </span>
+      <span className={`font-semibold ${color}`}>{status}</span>
     </div>
   );
 }
 
-function ClaimCard({
-  item,
-  status,
-  message,
-  date,
-}) {
+function ClaimCard({ item, status, message, date }) {
   return (
     <div className="flex items-start justify-between border-b border-slate-100 pb-4">
-
       <div>
-        <h3 className="font-semibold text-slate-800">
-          Item #{item}
-        </h3>
+        <h3 className="font-semibold text-slate-800">Item #{item}</h3>
 
-        <p className="mt-1 text-sm text-slate-500">
-          Claim request
-        </p>
+        <p className="mt-1 text-sm text-slate-500">Claim request</p>
 
-        <p className="mt-1 text-sm text-slate-500 line-clamp-2">
-          {message}
-        </p>
+        <p className="mt-1 text-sm text-slate-500 line-clamp-2">{message}</p>
 
         <p className="mt-1 flex items-center gap-2 text-sm text-slate-500">
           <Clock size={14} />
@@ -315,16 +256,15 @@ function ClaimCard({
 
       <span
         className={`mt-1 font-semibold ${
-          status === "Approved"
-            ? "text-green-500"
-            : status === "Rejected"
-            ? "text-red-500"
-            : "text-orange-500"
+          status === 'Approved'
+            ? 'text-green-500'
+            : status === 'Rejected'
+              ? 'text-red-500'
+              : 'text-orange-500'
         }`}
       >
         {status}
       </span>
-
     </div>
   );
 }

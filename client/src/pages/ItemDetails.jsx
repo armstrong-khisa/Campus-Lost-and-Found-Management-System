@@ -1,15 +1,8 @@
-import {
-  ArrowLeft,
-  MapPin,
-  Clock,
-  User,
-  Tag,
-  CheckCircle,
-} from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import api from "../services/api";
-import ClaimItemModal from "../components/ClaimItemModal";
+import { ArrowLeft, MapPin, Clock, User, Tag, CheckCircle } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import api from '../services/api';
+import ClaimItemModal from '../components/ClaimItemModal';
 
 function ItemDetails() {
   const navigate = useNavigate();
@@ -18,13 +11,13 @@ function ItemDetails() {
   const [claimOpen, setClaimOpen] = useState(false);
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   // Scroll to top whenever this page opens
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   }, []);
 
@@ -46,9 +39,7 @@ function ItemDetails() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-lg font-medium text-slate-600">
-          Loading item...
-        </p>
+        <p className="text-lg font-medium text-slate-600">Loading item...</p>
       </div>
     );
   }
@@ -64,7 +55,6 @@ function ItemDetails() {
   return (
     <section className="min-h-screen bg-slate-50 py-10">
       <div className="mx-auto max-w-6xl px-6">
-
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
@@ -75,43 +65,30 @@ function ItemDetails() {
         </button>
 
         <div className="grid gap-8 md:grid-cols-2">
-
           {/* LEFT */}
           <div className="rounded-3xl bg-white p-8 shadow">
-
             <div className="flex items-start justify-between">
-              <h1 className="text-3xl font-bold text-slate-800">
-                {item.title}
-              </h1>
+              <h1 className="text-3xl font-bold text-slate-800">{item.title}</h1>
 
               <span
                 className={`rounded-full px-4 py-1 text-sm font-semibold text-white ${
-                  item.item_type === "Lost"
-                    ? "bg-red-500"
-                    : "bg-emerald-500"
+                  item.item_type === 'Lost' ? 'bg-red-500' : 'bg-emerald-500'
                 }`}
               >
                 {item.item_type}
               </span>
             </div>
 
-            <p className="mt-5 leading-7 text-slate-600">
-              {item.description}
-            </p>
+            <p className="mt-5 leading-7 text-slate-600">{item.description}</p>
 
             <div className="mt-8 space-y-5">
-
               <Info
                 icon={<Tag size={20} />}
                 title="Category"
                 value={`Category #${item.category}`}
               />
 
-              <Info
-                icon={<MapPin size={20} />}
-                title="Location"
-                value={item.location}
-              />
+              <Info icon={<MapPin size={20} />} title="Location" value={item.location} />
 
               <Info
                 icon={<Clock size={20} />}
@@ -119,12 +96,7 @@ function ItemDetails() {
                 value={new Date(item.date_reported).toLocaleString()}
               />
 
-              <Info
-                icon={<User size={20} />}
-                title="Status"
-                value={item.status}
-              />
-
+              <Info icon={<User size={20} />} title="Status" value={item.status} />
             </div>
 
             <button
@@ -134,12 +106,10 @@ function ItemDetails() {
               <CheckCircle size={18} />
               Claim Item
             </button>
-
           </div>
 
           {/* RIGHT */}
           <div className="overflow-hidden rounded-3xl bg-white shadow">
-
             {item.image_url ? (
               <img
                 src={item.image_url}
@@ -148,22 +118,14 @@ function ItemDetails() {
               />
             ) : (
               <div className="flex h-[500px] items-center justify-center bg-slate-200">
-                <span className="text-slate-500">
-                  No Image Available
-                </span>
+                <span className="text-slate-500">No Image Available</span>
               </div>
             )}
-
           </div>
-
         </div>
       </div>
 
-      <ClaimItemModal
-        isOpen={claimOpen}
-        onClose={() => setClaimOpen(false)}
-        item={item}
-      />
+      <ClaimItemModal isOpen={claimOpen} onClose={() => setClaimOpen(false)} item={item} />
     </section>
   );
 }
@@ -171,7 +133,6 @@ function ItemDetails() {
 function Info({ icon, title, value }) {
   return (
     <div className="flex items-center gap-4">
-
       <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-100 text-orange-500">
         {icon}
       </div>
@@ -180,7 +141,6 @@ function Info({ icon, title, value }) {
         <p className="text-sm text-slate-400">{title}</p>
         <p className="font-medium text-slate-700">{value}</p>
       </div>
-
     </div>
   );
 }

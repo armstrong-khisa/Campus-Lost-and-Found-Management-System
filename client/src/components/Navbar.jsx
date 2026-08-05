@@ -1,13 +1,10 @@
-import { NavLink } from "react-router-dom";
-import { Plus, LogIn, LayoutDashboard } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
+import { NavLink } from 'react-router-dom';
+import { Plus, LogIn, LayoutDashboard } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 function Navbar({ onLoginClick, onReportClick }) {
   const { user, isLoggedIn } = useAuth();
-  const dashboardLink =
-  user?.role === "admin"
-    ? "/admin"
-    : "/dashboard";
+  const dashboardLink = user?.role === 'admin' ? '/admin' : '/dashboard';
 
   const loggedIn = isLoggedIn;
   const linkStyle = ({ isActive }) =>
@@ -93,10 +90,7 @@ function Navbar({ onLoginClick, onReportClick }) {
               "
             />
 
-            <img
-              src="/logo.png"
-              alt="Campus Lost and Found"
-            />
+            <img src="/logo.png" alt="Campus Lost and Found" />
           </div>
 
           <h1
@@ -135,13 +129,9 @@ function Navbar({ onLoginClick, onReportClick }) {
         <div className="flex items-center gap-3">
           {loggedIn && (
             <div className="hidden lg:flex flex-col text-right">
-              <span className="text-xs text-slate-500">
-                Welcome back,
-              </span>
+              <span className="text-xs text-slate-500">Welcome back,</span>
 
-              <span className="font-semibold text-slate-800">
-                {user?.username}
-              </span>
+              <span className="font-semibold text-slate-800">{user?.username}</span>
             </div>
           )}
 
@@ -204,7 +194,7 @@ function Navbar({ onLoginClick, onReportClick }) {
             </button>
           ) : (
             <NavLink
-  to={dashboardLink}
+              to={dashboardLink}
               className="
                 flex
                 items-center

@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Items from "./pages/Items";
-import ItemDetails from "./pages/ItemDetails";
-import Dashboard from "./pages/Dashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import NotFound from "./pages/NotFound";
+import Home from './pages/Home';
+import About from './pages/About';
+import Items from './pages/Items';
+import ItemDetails from './pages/ItemDetails';
+import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import NotFound from './pages/NotFound';
 
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import AuthModal from "./components/AuthModal";
-import ReportItemModal from "./components/ReportItemModal";
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import AuthModal from './components/AuthModal';
+import ReportItemModal from './components/ReportItemModal';
 
-import ProtectedRoute from "./components/ProtectedRoute";
-import AdminRoute from "./components/AdminRoute";
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 
 function App() {
   const [showAuth, setShowAuth] = useState(false);
@@ -23,10 +23,7 @@ function App() {
 
   return (
     <>
-      <Navbar
-        onLoginClick={() => setShowAuth(true)}
-        onReportClick={() => setShowReport(true)}
-      />
+      <Navbar onLoginClick={() => setShowAuth(true)} onReportClick={() => setShowReport(true)} />
 
       <Routes>
         {/* Public Routes */}
@@ -62,15 +59,9 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      <AuthModal
-        isOpen={showAuth}
-        onClose={() => setShowAuth(false)}
-      />
+      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
 
-      <ReportItemModal
-        isOpen={showReport}
-        onClose={() => setShowReport(false)}
-      />
+      <ReportItemModal isOpen={showReport} onClose={() => setShowReport(false)} />
 
       <Footer />
     </>
