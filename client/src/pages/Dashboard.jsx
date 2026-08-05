@@ -80,9 +80,9 @@ function Dashboard() {
     );
   }
 
-  return (
+return (
     <section className="flex min-h-screen bg-slate-50">
-      {/* Sidebar */}
+      {/* Sidebar (desktop) */}
 
       <aside className="hidden w-64 border-r border-slate-200 bg-white p-6 md:block">
         <nav className="space-y-2">
@@ -96,10 +96,17 @@ function Dashboard() {
 
       {/* Main */}
 
-      <main className="flex-1 p-6 md:p-10">
+      <main className="flex-1 p-4 md:p-10">
+        {/* Mobile nav (horizontal scroll) */}
+        <div className="mb-6 flex gap-2 overflow-x-auto pb-1 md:hidden">
+          <NavItem icon={<LayoutDashboard size={18} />} text="Dashboard" active />
+          <NavItem icon={<Package size={18} />} text="My Reports" />
+          <NavItem icon={<ClipboardCheck size={18} />} text="My Claims" />
+        </div>
+
         {/* Header */}
 
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col gap-4 items-start justify-between sm:flex-row sm:items-start">
           <div>
             <h1 className="text-3xl font-bold text-slate-800">Welcome back, {user?.username} 👋</h1>
 

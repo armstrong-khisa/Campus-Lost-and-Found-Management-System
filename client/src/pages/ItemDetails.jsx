@@ -108,16 +108,16 @@ function ItemDetails() {
             </button>
           </div>
 
-          {/* RIGHT */}
+{/* RIGHT */}
           <div className="overflow-hidden rounded-3xl bg-white shadow">
             {item.image_url ? (
               <img
                 src={item.image_url}
                 alt={item.title}
-                className="h-[500px] w-full object-cover"
+                className="h-64 w-full object-cover sm:h-[500px]"
               />
             ) : (
-              <div className="flex h-[500px] items-center justify-center bg-slate-200">
+              <div className="flex h-64 items-center justify-center bg-slate-200 sm:h-[500px]">
                 <span className="text-slate-500">No Image Available</span>
               </div>
             )}

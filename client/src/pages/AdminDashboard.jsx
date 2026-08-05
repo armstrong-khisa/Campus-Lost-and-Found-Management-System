@@ -54,17 +54,18 @@ function AdminDashboard() {
     }
   };
 
-  return (
+return (
     <section className="flex min-h-screen bg-slate-50">
-      {/* Sidebar */}
+      {/* Sidebar (desktop) */}
 
       <aside className="hidden w-64 border-r border-slate-200 bg-white p-6 md:block">
         <nav className="space-y-2">
-          <AdminNav
+<AdminNav
             icon={<LayoutDashboard size={20} />}
             text="Dashboard"
             active={activePage === 'Dashboard'}
             onClick={() => setActivePage('Dashboard')}
+            className="w-full"
           />
 
           <AdminNav
@@ -72,6 +73,7 @@ function AdminDashboard() {
             text="Users"
             active={activePage === 'Users'}
             onClick={() => setActivePage('Users')}
+            className="w-full"
           />
 
           <AdminNav
@@ -79,6 +81,7 @@ function AdminDashboard() {
             text="Items"
             active={activePage === 'Items'}
             onClick={() => setActivePage('Items')}
+            className="w-full"
           />
 
           <AdminNav
@@ -86,6 +89,7 @@ function AdminDashboard() {
             text="Claims"
             active={activePage === 'Claims'}
             onClick={() => setActivePage('Claims')}
+            className="w-full"
           />
 
           <AdminNav
@@ -93,6 +97,7 @@ function AdminDashboard() {
             text="Categories"
             active={activePage === 'Categories'}
             onClick={() => setActivePage('Categories')}
+            className="w-full"
           />
         </nav>
 
@@ -105,7 +110,48 @@ function AdminDashboard() {
         </button>
       </aside>
 
-      <main className="flex-1">{renderPage()}</main>
+      <main className="flex-1">
+        {/* Mobile nav (horizontal scroll) */}
+<div className="flex gap-2 overflow-x-auto border-b border-slate-200 bg-white p-3 pb-1 md:hidden">
+          <AdminNav
+            icon={<LayoutDashboard size={18} />}
+            text="Dashboard"
+            active={activePage === 'Dashboard'}
+            onClick={() => setActivePage('Dashboard')}
+            className="shrink-0"
+          />
+          <AdminNav
+            icon={<Users size={18} />}
+            text="Users"
+            active={activePage === 'Users'}
+            onClick={() => setActivePage('Users')}
+            className="shrink-0"
+          />
+          <AdminNav
+            icon={<Package size={18} />}
+            text="Items"
+            active={activePage === 'Items'}
+            onClick={() => setActivePage('Items')}
+            className="shrink-0"
+          />
+          <AdminNav
+            icon={<ClipboardCheck size={18} />}
+            text="Claims"
+            active={activePage === 'Claims'}
+            onClick={() => setActivePage('Claims')}
+            className="shrink-0"
+          />
+          <AdminNav
+            icon={<Tags size={18} />}
+            text="Categories"
+            active={activePage === 'Categories'}
+            onClick={() => setActivePage('Categories')}
+            className="shrink-0"
+          />
+        </div>
+
+        {renderPage()}
+      </main>
     </section>
   );
 }
@@ -185,10 +231,10 @@ function DashboardHome({ user }) {
     },
   ];
 
-  return (
-    <div className="p-6 md:p-10">
+return (
+    <div className="p-4 md:p-10">
       <div>
-        <h1 className="text-3xl font-bold text-slate-800">
+        <h1 className="text-2xl font-bold text-slate-800 sm:text-3xl">
           Welcome back, {user?.username || 'Admin'} 👋
         </h1>
 
@@ -298,11 +344,11 @@ function DashboardHome({ user }) {
   );
 }
 
-function AdminNav({ icon, text, active, onClick }) {
+function AdminNav({ icon, text, active, onClick, className = '' }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center gap-3 rounded-xl px-4 py-3 transition ${
+      className={`flex items-center gap-3 rounded-xl px-4 py-3 whitespace-nowrap transition ${className} ${
         active
           ? 'bg-orange-500 text-white'
           : 'text-slate-500 hover:bg-orange-50 hover:text-orange-500'

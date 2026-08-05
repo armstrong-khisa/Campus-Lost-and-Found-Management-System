@@ -10,7 +10,7 @@ function Home() {
             Campus Lost & Found Platform
           </span>
 
-          <h1 className="mt-6 text-5xl font-semibold leading-tight tracking-tight text-slate-900 lg:text-6xl">
+<h1 className="mt-6 text-4xl font-semibold leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
             Lost Something?
             <br />
             <span className="font-semibold text-orange-500">We Help You Find It.</span>
@@ -56,19 +56,19 @@ function Home() {
           </div>
         </div>
 
-        {/* Right Section */}
+{/* Right Section */}
         <div className="relative flex justify-center lg:justify-end">
-          <div className="relative">
+          <div className="relative w-full max-w-[430px]">
             <div className="absolute -inset-5 rounded-3xl bg-orange-200/40 blur-2xl"></div>
 
             <img
               src="https://images.unsplash.com/photo-1626010448982-0fec79ed1979?q=80&w=870&auto=format&fit=crop"
               alt="Campus"
-              className="relative h-[520px] w-[430px] rounded-3xl object-cover shadow-2xl"
+              className="relative h-[300px] w-full rounded-3xl object-cover shadow-2xl sm:h-[520px]"
             />
 
             {/* Floating Card */}
-            <div className="absolute -bottom-8 -left-8 w-72 rounded-2xl bg-white p-6 shadow-xl">
+            <div className="absolute -bottom-8 left-2 w-[calc(100%-1rem)] max-w-72 rounded-2xl bg-white p-6 shadow-xl sm:left-auto sm:-left-8 sm:w-72">
               <div className="flex items-center justify-between">
                 <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-600">
                   Found
