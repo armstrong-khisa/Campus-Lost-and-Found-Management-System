@@ -102,10 +102,10 @@ function Claims() {
         />
       </div>
 
-      {/* Claims Table */}
+{/* Claims Table */}
 
-      <div className="mt-6 overflow-hidden rounded-2xl bg-white shadow-sm">
-        <table className="w-full">
+      <div className="mt-6 overflow-x-auto rounded-2xl bg-white shadow-sm">
+        <table className="w-full min-w-[640px]">
           <thead className="bg-slate-100">
             <tr className="text-left">
               <th className="px-6 py-4">Item</th>
