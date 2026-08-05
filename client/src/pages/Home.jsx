@@ -1,6 +1,9 @@
 import { Search, Plus, CheckCircle, MapPin, Clock, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-function Home() {
+function Home({ onReportClick }) {
+  const navigate = useNavigate();
+
   return (
     <section className="overflow-hidden bg-slate-50">
       <div className="mx-auto grid min-h-[90vh] max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2">
@@ -21,14 +24,20 @@ function Home() {
             a simple and secure campus platform.
           </p>
 
-          {/* Buttons */}
+{/* Buttons */}
           <div className="mt-8 flex flex-wrap gap-4">
-            <button className="flex items-center gap-2 rounded-xl bg-orange-500 px-6 py-3 font-medium text-white transition hover:bg-orange-600">
+            <button
+              onClick={() => navigate('/items')}
+              className="flex items-center gap-2 rounded-xl bg-orange-500 px-6 py-3 font-medium text-white transition hover:bg-orange-600"
+            >
               <Search size={20} />
               Browse Items
             </button>
 
-            <button className="flex items-center gap-2 rounded-xl border border-orange-500 px-6 py-3 font-medium text-orange-500 transition hover:bg-orange-500 hover:text-white">
+            <button
+              onClick={onReportClick}
+              className="flex items-center gap-2 rounded-xl border border-orange-500 px-6 py-3 font-medium text-orange-500 transition hover:bg-orange-500 hover:text-white"
+            >
               <Plus size={20} />
               Report Item
             </button>
@@ -91,7 +100,10 @@ function Home() {
                 </div>
               </div>
 
-              <button className="mt-4 flex items-center gap-2 text-sm font-medium text-orange-500">
+<button
+                onClick={() => navigate('/items')}
+                className="mt-4 flex items-center gap-2 text-sm font-medium text-orange-500"
+              >
                 View Details
                 <ArrowRight size={16} />
               </button>

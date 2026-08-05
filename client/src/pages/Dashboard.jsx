@@ -7,7 +7,7 @@ import {
   CheckCircle,
   ClipboardCheck,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import api from '../services/api';
@@ -21,6 +21,25 @@ function Dashboard() {
   const [items, setItems] = useState([]);
   const [claims, setClaims] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeSection, setActiveSection] = useState('dashboard');
+
+const reportsRef = useRef(null);
+  const claimsRef = useRef(null);
+
+  function scrollToSection(section) {
+    setActiveSection(section);
+
+    if (section === 'dashboard') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const target = section === 'reports' ? reportsRef.current : claimsRef.current;
+
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 
   useEffect(() => {
     async function loadDashboard() {
@@ -84,24 +103,60 @@ return (
     <section className="flex min-h-screen bg-slate-50">
       {/* Sidebar (desktop) */}
 
-      <aside className="hidden w-64 border-r border-slate-200 bg-white p-6 md:block">
+<aside className="hidden w-64 border-r border-slate-200 bg-white p-6 md:block">
         <nav className="space-y-2">
-          <NavItem icon={<LayoutDashboard size={20} />} text="Dashboard" active />
+          <NavItem
+            icon={<LayoutDashboard size={20} />}
+            text="Dashboard"
+            active={activeSection === 'dashboard'}
+            onClick={() => scrollToSection('dashboard')}
+          />
 
-          <NavItem icon={<Package size={20} />} text="My Reports" />
+          <NavItem
+            icon={<Package size={20} />}
+            text="My Reports"
+            active={activeSection === 'reports'}
+            onClick={() => scrollToSection('reports')}
+          />
 
-          <NavItem icon={<ClipboardCheck size={20} />} text="My Claims" />
+          <NavItem
+            icon={<ClipboardCheck size={20} />}
+            text="My Claims"
+            active={activeSection === 'claims'}
+            onClick={() => scrollToSection('claims')}
+          />
         </nav>
       </aside>
 
-      {/* Main */}
+{/* Main */}
 
       <main className="flex-1 p-4 md:p-10">
         {/* Mobile nav (horizontal scroll) */}
         <div className="mb-6 flex gap-2 overflow-x-auto pb-1 md:hidden">
-          <NavItem icon={<LayoutDashboard size={18} />} text="Dashboard" active />
-          <NavItem icon={<Package size={18} />} text="My Reports" />
-          <NavItem icon={<ClipboardCheck size={18} />} text="My Claims" />
+          <div className="shrink-0">
+            <NavItem
+              icon={<LayoutDashboard size={18} />}
+              text="Dashboard"
+              active={activeSection === 'dashboard'}
+              onClick={() => scrollToSection('dashboard')}
+            />
+          </div>
+          <div className="shrink-0">
+            <NavItem
+              icon={<Package size={18} />}
+              text="My Reports"
+              active={activeSection === 'reports'}
+              onClick={() => scrollToSection('reports')}
+            />
+          </div>
+          <div className="shrink-0">
+            <NavItem
+              icon={<ClipboardCheck size={18} />}
+              text="My Claims"
+              active={activeSection === 'claims'}
+              onClick={() => scrollToSection('claims')}
+            />
+          </div>
         </div>
 
         {/* Header */}
@@ -143,12 +198,12 @@ return (
           ))}
         </div>
 
-        {/* Reports + Claims */}
+{/* Reports + Claims */}
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
           {/* Reports */}
 
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div ref={reportsRef} className="scroll-mt-24 rounded-2xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-slate-800">My Reports</h2>
 
@@ -175,9 +230,9 @@ return (
             </div>
           </div>
 
-          {/* Claims */}
+{/* Claims */}
 
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div ref={claimsRef} className="scroll-mt-24 rounded-2xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-slate-800">My Claims</h2>
 
@@ -208,10 +263,11 @@ return (
   );
 }
 
-function NavItem({ icon, text, active }) {
+function NavItem({ icon, text, active, onClick }) {
   return (
-    <div
-      className={`flex cursor-pointer items-center gap-3 rounded-xl px-4 py-3 transition ${
+    <button
+      onClick={onClick}
+      className={`flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-3 whitespace-nowrap text-left transition ${
         active
           ? 'bg-orange-500 text-white'
           : 'text-slate-500 hover:bg-orange-50 hover:text-orange-500'
@@ -219,7 +275,7 @@ function NavItem({ icon, text, active }) {
     >
       {icon}
       <span>{text}</span>
-    </div>
+    </button>
   );
 }
 

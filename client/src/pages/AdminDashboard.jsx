@@ -315,8 +315,7 @@ return (
               recentClaims.map((claim) => (
                 <div
                   key={claim.id}
-                  className="flex items-center justify-between border-b border-slate-100 pb-4"
-                >
+                  className="flex items-center justify-between border-b border-slate-100 pb-4"                >
                   <div>
                     <h3 className="font-semibold text-slate-800">Claim #{claim.id}</h3>
 
